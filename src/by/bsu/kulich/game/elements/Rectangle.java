@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,5 +32,10 @@ public class Rectangle extends AbstractGameElement {
     @Override
     public double bottom() {
         return y + sizeY / 2.0;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        g.fillRect((int) left(), (int) top(), (int) getSizeX(), (int) getSizeY());
     }
 }
