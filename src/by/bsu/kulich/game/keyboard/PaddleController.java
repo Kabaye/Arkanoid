@@ -37,7 +37,7 @@ public class PaddleController implements KeyListener {
                 arcanoid.setRunning(!arcanoid.isRunning());
                 break;
             case KeyEvent.VK_SPACE:
-                if (!isStarted) {
+                if (!isStarted || arcanoid.getBall().isDied()) {
                     arcanoid.getBall().start();
                     isStarted = true;
                 }
