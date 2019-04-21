@@ -24,7 +24,9 @@ public class Arcanoid extends JFrame {
     private final double REAL_TOP_WINDOW_BOUND = 32.0;
     private final double REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 8.0;
 
+    @Getter
     private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT - 25.0, REAL_LEFT_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
+    @Getter
     private Ball ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 45,
             REAL_LEFT_WINDOW_BOUND, REAL_TOP_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, REAL_BOTTOM_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
     private List<Block> blocks = new ArrayList<>();
@@ -35,8 +37,8 @@ public class Arcanoid extends JFrame {
     private boolean running;
 
     private Arcanoid() {
+        super("KABAYE INC. ARCANOID®");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setUndecorated(false);
         this.setResizable(false);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
@@ -44,15 +46,11 @@ public class Arcanoid extends JFrame {
 
         this.createBufferStrategy(2);
 
-        this.controller = new PaddleController(paddle, this);
+        this.controller = new PaddleController(this);
 
         this.addKeyListener(controller);
 
         initializeBricks();
-
-        ball.setVelocityX(ball.getBallVelocity());
-        ball.setVelocityY(ball.getBallVelocity());
-
     }
 
     public static void main(String[] args) {
