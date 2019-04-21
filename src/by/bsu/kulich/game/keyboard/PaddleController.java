@@ -1,5 +1,6 @@
 package by.bsu.kulich.game.keyboard;
 
+import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.Paddle;
 
 import java.awt.event.KeyEvent;
@@ -7,9 +8,11 @@ import java.awt.event.KeyListener;
 
 public class PaddleController implements KeyListener {
     private Paddle paddle;
+    private Arcanoid arcanoid;
 
-    public PaddleController(Paddle paddle) {
+    public PaddleController(Paddle paddle, Arcanoid arcanoid) {
         this.paddle = paddle;
+        this.arcanoid = arcanoid;
     }
 
     @Override
@@ -25,6 +28,9 @@ public class PaddleController implements KeyListener {
                 break;
             case KeyEvent.VK_RIGHT:
                 paddle.moveRight();
+                break;
+            case KeyEvent.VK_ESCAPE:
+                arcanoid.setRunning(!arcanoid.isRunning());
                 break;
             default:
                 break;
