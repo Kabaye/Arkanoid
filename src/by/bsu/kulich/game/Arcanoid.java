@@ -1,9 +1,7 @@
 package by.bsu.kulich.game;
 
-import by.bsu.kulich.game.elements.Block;
-import by.bsu.kulich.game.elements.GameDifficultyLevel;
-import by.bsu.kulich.game.elements.GameLevel;
-import by.bsu.kulich.game.elements.Paddle;
+import by.bsu.kulich.game.elements.*;
+import by.bsu.kulich.game.keyboard.PaddleController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +17,8 @@ public class Arcanoid extends JFrame {
     private final static int WINDOW_HEIGHT = 700;
 
     private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT - 25.0, WINDOW_WIDTH, GameDifficultyLevel.LIGHT);
+    private PaddleController controller = new PaddleController(paddle);
+    private Ball ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 45, WINDOW_WIDTH, WINDOW_HEIGHT, GameDifficultyLevel.LIGHT);
     private List<Block> blocks = new ArrayList<>();
 
     private Arcanoid() {
@@ -31,6 +31,8 @@ public class Arcanoid extends JFrame {
 
         this.createBufferStrategy(2);
 
+        this.addKeyListener(controller);
+
         initializeBricks();
     }
 
@@ -39,7 +41,6 @@ public class Arcanoid extends JFrame {
     }
 
     private void initializeBricks() {
-        // deallocate old bricks
         blocks.clear();
 
         for (int iX = 0; iX < 10; ++iX) {
@@ -50,31 +51,26 @@ public class Arcanoid extends JFrame {
         }
     }
 
-    private void drawScene(/*Ball ball,*/ List<Block> blocks/*, ScoreBoard scoreboard*/) {
-        // Code for the drawing goes here.
+    private void drawScene(Ball ball, List<Block> blocks/*, ScoreBoard scoreboard*/) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
-
         try {
-
             g = bf.getDrawGraphics();
 
             g.setColor(Color.black);
             g.fillRect(0, 0, getWidth(), getHeight());
 
-            //ball.draw(g);
+            ball.draw(g);
             paddle.draw(g);
             for (Block block : blocks) {
                 block.draw(g);
             }
             //scoreboard.draw(g);
-
         } finally {
             g.dispose();
         }
 
         bf.show();
-
         Toolkit.getDefaultToolkit().sync();
 
     }
@@ -82,11 +78,15 @@ public class Arcanoid extends JFrame {
     private void run() {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = bf.getDrawGraphics();
-        g.setColor(Color.black);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.dispose();
         bf.show();
 
-        drawScene(blocks);
+        while (true) {
+            drawScene(ball, blocks);
+            paddle.update();
+        }
+
     }
 }
