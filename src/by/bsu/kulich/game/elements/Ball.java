@@ -28,7 +28,9 @@ public class Ball extends AbstractGameElement implements Pausable {
     @Setter
     private Color color;
 
-    private boolean pause = true;
+    private boolean pause;
+    @Getter
+    private boolean died;
 
     public Ball(int x, int y, double realLeftWindowBound, double realTopWindowBound, double realRightWindowBound, double realBottomWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         this.x = x;
@@ -72,6 +74,7 @@ public class Ball extends AbstractGameElement implements Pausable {
     @Override
     public void start() {
         pause = false;
+        died = false;
         this.velocityX = this.ballVelocity;
         this.velocityY = this.ballVelocity;
     }
@@ -86,8 +89,14 @@ public class Ball extends AbstractGameElement implements Pausable {
         pause = true;
     }
 
-    public void update(/*ScoreBoard scoreBoard, */Paddle paddle) {
-        if (!pause) {
+    public void die(Paddle paddle) {
+        died = true;
+        x = paddle.getX();
+        y = paddle.getY() - 2 * radius;
+    }
+
+    public void update(Score score, Paddle paddle) {
+        if (!pause && !died) {
             x += velocityX * BALL_SIMPLE_STEP;
             y += velocityY * BALL_SIMPLE_STEP;
 
@@ -99,9 +108,8 @@ public class Ball extends AbstractGameElement implements Pausable {
                 velocityY = -velocityY;
             } else if (bottom() > REAL_BOTTOM_WINDOW_BOUND) {
                 velocityY = -ballVelocity;
-                x = paddle.getX();
-                y = paddle.getY() - 2 * radius;
-                //scoreBoard.die();
+                die(paddle);
+                score.die();
             }
         }
     }
