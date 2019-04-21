@@ -10,7 +10,9 @@ public class Paddle extends Rectangle {
     private static final double PADDLE_WIDTH = 110.0;
     private static final double PADDLE_HEIGHT = 17.0;
     private static final double PADDLE_SIMPLE_STEP = 0.8;
-    private final double WINDOW_WIDTH;
+    private final double REAL_LEFT_WINDOW_BOUND;
+    private final double REAL_RIGHT_WINDOW_BOUND;
+
 
     @Setter
     private double velocityValue = 0.6;
@@ -19,7 +21,7 @@ public class Paddle extends Rectangle {
     @Setter
     private GameDifficultyLevel gameDifficultyLevel;
 
-    public Paddle(double x, double y, double windowWidth, @NonNull GameDifficultyLevel difficultyLevel) {
+    public Paddle(double x, double y, double realLeftWindowBound, double realRightWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         super(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
         switch (difficultyLevel) {
             case LIGHT:
@@ -41,11 +43,16 @@ public class Paddle extends Rectangle {
                 this.setVelocityValue(0.42);
                 break;
         }
-        WINDOW_WIDTH = windowWidth;
+        REAL_LEFT_WINDOW_BOUND = realLeftWindowBound;
+        REAL_RIGHT_WINDOW_BOUND = realRightWindowBound;
         gameDifficultyLevel = difficultyLevel;
     }
 
     public void update() {
+        if (left() < REAL_LEFT_WINDOW_BOUND && velocity < 0.0)
+            velocity = 0.0;
+        if (right() > REAL_RIGHT_WINDOW_BOUND && velocity > 0.0)
+            velocity = 0.0;
         this.setX(this.getX() + velocity * PADDLE_SIMPLE_STEP);
     }
 
@@ -54,19 +61,11 @@ public class Paddle extends Rectangle {
     }
 
     public void moveLeft() {
-        if (left() > 0.0) {
-            velocity = -velocityValue;
-        } else {
-            velocity = 0.0;
-        }
+        velocity = -velocityValue;
     }
 
     public void moveRight() {
-        if (right() < WINDOW_WIDTH) {
-            velocity = velocityValue;
-        } else {
-            velocity = 0.0;
-        }
+        velocity = velocityValue;
     }
 
     public void draw(Graphics g) {

@@ -1,32 +1,41 @@
 package by.bsu.kulich.game.elements;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
 import java.awt.*;
 
+@Getter
 public class Ball extends AbstractGameElement {
     private static final double BALL_RADIUS = 10.0;
     private static final double BALL_SIMPLE_STEP = 0.8;
-    private final double WINDOW_WIDTH;
-    private final double WINDOW_HEIGHT;
+
+    private final double REAL_LEFT_WINDOW_BOUND;
+    private final double REAL_RIGHT_WINDOW_BOUND;
+    private final double REAL_TOP_WINDOW_BOUND;
+    private final double REAL_BOTTOM_WINDOW_BOUND;
 
     private double x, y;
     private double radius = BALL_RADIUS;
     @Setter
     private double ballVelocity = 0.3;
+    @Setter
     private double velocityX;
+    @Setter
     private double velocityY;
     private GameDifficultyLevel difficultyLevel;
     @Setter
     private Color color;
 
-    public Ball(int x, int y, double windowWidth, double windowHeight, @NonNull GameDifficultyLevel difficultyLevel) {
+    public Ball(int x, int y, double realLeftWindowBound, double realTopWindowBound, double realRightWindowBound, double realBottomWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         this.x = x;
         this.y = y;
         this.difficultyLevel = difficultyLevel;
-        WINDOW_HEIGHT = windowHeight;
-        WINDOW_WIDTH = windowWidth;
+        REAL_LEFT_WINDOW_BOUND = realLeftWindowBound;
+        REAL_TOP_WINDOW_BOUND = realTopWindowBound;
+        REAL_RIGHT_WINDOW_BOUND = realRightWindowBound;
+        REAL_BOTTOM_WINDOW_BOUND = realBottomWindowBound;
         switch (this.difficultyLevel) {
             case LIGHT:
                 this.setColor(Color.MAGENTA);
@@ -61,13 +70,13 @@ public class Ball extends AbstractGameElement {
         x += velocityX * BALL_SIMPLE_STEP;
         y += velocityY * BALL_SIMPLE_STEP;
 
-        if (left() < 0)
-            velocityX = ballVelocity;
-        else if (right() > WINDOW_WIDTH)
-            velocityX = -ballVelocity;
-        if (top() < 0) {
-            velocityY = ballVelocity;
-        } else if (bottom() > WINDOW_HEIGHT) {
+        if (left() < REAL_LEFT_WINDOW_BOUND)
+            velocityX = -velocityX;
+        else if (right() > REAL_RIGHT_WINDOW_BOUND)
+            velocityX = -velocityX;
+        if (top() < REAL_TOP_WINDOW_BOUND) {
+            velocityY = -velocityY;
+        } else if (bottom() > REAL_BOTTOM_WINDOW_BOUND) {
             velocityY = -ballVelocity;
             x = paddle.getX();
             y = paddle.getY() - 2 * radius;
