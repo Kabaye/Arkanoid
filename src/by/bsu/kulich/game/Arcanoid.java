@@ -30,6 +30,7 @@ public class Arcanoid extends JFrame {
     private Ball ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 45,
             REAL_LEFT_WINDOW_BOUND, REAL_TOP_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, REAL_BOTTOM_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
     private List<Block> blocks = new ArrayList<>();
+    private Score score = new Score(GameDifficultyLevel.MEDIUM, 50);
     private PaddleController controller;
 
     @Setter
@@ -90,7 +91,8 @@ public class Arcanoid extends JFrame {
             g.drawRect((int)REAL_LEFT_WINDOW_BOUND,(int)REAL_TOP_WINDOW_BOUND,5,5);
             g.drawRect((int) REAL_RIGHT_WINDOW_BOUND-5, (int)REAL_BOTTOM_WINDOW_BOUND-5,5,5);*/
 
-            //scoreboard.draw(g)
+            score.draw(g);
+
         } finally {
             g.dispose();
         }
@@ -121,8 +123,10 @@ public class Arcanoid extends JFrame {
                     ball.setVelocityX(ball.getBallVelocity() * (ball.getX() - paddle.getX()) / (paddle.getSizeX() / 2.0));
                 else if (ball.getX() < paddle.getX())
                     ball.setVelocityX(ball.getBallVelocity() * (ball.getX() - paddle.getX()) / (paddle.getSizeX() / 2.0));
-            } else
-                System.out.println("LOOOOOSEEEEE");
+            } else {
+                ball.die(paddle);
+                score.die();
+            }
         }
     }
 
@@ -143,6 +147,7 @@ public class Arcanoid extends JFrame {
             if (((bX - blX) <= -blW / 2.0) && (Math.abs(bY - blY) <= blH / 2.0) && (bY < blY + blH / 2.0) && (bY > blY - blH / 2.0)) {
                 ball.setVelocityX(-ball.getVelocityX());
                 block.setDestroyed(true);
+                score.increaseScore();
             }
 
             /**
@@ -151,6 +156,7 @@ public class Arcanoid extends JFrame {
             else if ((Math.abs(bX - blX) <= blW / 2.0) && ((bY - blY) >= blH / 2.0)) {
                 ball.setVelocityY(-ball.getVelocityY());
                 block.setDestroyed(true);
+                score.increaseScore();
             }
 
             /**
@@ -159,6 +165,7 @@ public class Arcanoid extends JFrame {
             else if (((bX - blX) >= blW / 2.0) && (Math.abs(bY - blY) <= blH / 2.0) && (bY < blY + blH / 2.0) && (bY > blY - blH / 2.0)) {
                 ball.setVelocityX(-ball.getVelocityX());
                 block.setDestroyed(true);
+                score.increaseScore();
             }
 
             /**
@@ -167,12 +174,13 @@ public class Arcanoid extends JFrame {
             else if ((Math.abs(bX - blX) <= blW / 2.0) && ((bY - blY) <= -blH / 2.0)) {
                 ball.setVelocityY(-ball.getVelocityY());
                 block.setDestroyed(true);
+                score.increaseScore();
             }
         }
     }
 
     private void update() {
-        ball.update(/*scoreboard, */paddle);
+        ball.update(score, paddle);
         paddle.update();
 
         testCollision(paddle, ball);
