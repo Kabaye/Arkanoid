@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.awt.*;
 
 @Getter
-public class Ball extends AbstractGameElement {
+public class Ball extends AbstractGameElement implements Pausable {
     private static final double BALL_RADIUS = 10.0;
     private static final double BALL_SIMPLE_STEP = 0.8;
 
@@ -19,7 +19,7 @@ public class Ball extends AbstractGameElement {
     private double x, y;
     private double radius = BALL_RADIUS;
     @Setter
-    private double ballVelocity = 0.3;
+    private double ballVelocity;
     @Setter
     private double velocityX;
     @Setter
@@ -27,6 +27,8 @@ public class Ball extends AbstractGameElement {
     private GameDifficultyLevel difficultyLevel;
     @Setter
     private Color color;
+
+    private boolean pause = true;
 
     public Ball(int x, int y, double realLeftWindowBound, double realTopWindowBound, double realRightWindowBound, double realBottomWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         this.x = x;
@@ -60,27 +62,47 @@ public class Ball extends AbstractGameElement {
         }
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillOval((int) left(), (int) top(), (int) radius * 2,
                 (int) radius * 2);
     }
 
-    public void update(/*ScoreBoard scoreBoard, */Paddle paddle) {
-        x += velocityX * BALL_SIMPLE_STEP;
-        y += velocityY * BALL_SIMPLE_STEP;
+    @Override
+    public void start() {
+        pause = false;
+        this.velocityX = this.ballVelocity;
+        this.velocityY = this.ballVelocity;
+    }
 
-        if (left() < REAL_LEFT_WINDOW_BOUND)
-            velocityX = -velocityX;
-        else if (right() > REAL_RIGHT_WINDOW_BOUND)
-            velocityX = -velocityX;
-        if (top() < REAL_TOP_WINDOW_BOUND) {
-            velocityY = -velocityY;
-        } else if (bottom() > REAL_BOTTOM_WINDOW_BOUND) {
-            velocityY = -ballVelocity;
-            x = paddle.getX();
-            y = paddle.getY() - 2 * radius;
-            //scoreBoard.die();
+    @Override
+    public void continueGame() {
+        pause = false;
+    }
+
+    @Override
+    public void pause() {
+        pause = true;
+    }
+
+    public void update(/*ScoreBoard scoreBoard, */Paddle paddle) {
+        if (!pause) {
+            x += velocityX * BALL_SIMPLE_STEP;
+            y += velocityY * BALL_SIMPLE_STEP;
+
+            if (left() < REAL_LEFT_WINDOW_BOUND)
+                velocityX = -velocityX;
+            else if (right() > REAL_RIGHT_WINDOW_BOUND)
+                velocityX = -velocityX;
+            if (top() < REAL_TOP_WINDOW_BOUND) {
+                velocityY = -velocityY;
+            } else if (bottom() > REAL_BOTTOM_WINDOW_BOUND) {
+                velocityY = -ballVelocity;
+                x = paddle.getX();
+                y = paddle.getY() - 2 * radius;
+                //scoreBoard.die();
+            }
         }
     }
 

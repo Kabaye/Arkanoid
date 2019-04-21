@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.awt.*;
 
-public class Paddle extends Rectangle {
+public class Paddle extends Rectangle implements Pausable {
 
     private static final double PADDLE_WIDTH = 110.0;
     private static final double PADDLE_HEIGHT = 17.0;
@@ -15,15 +15,19 @@ public class Paddle extends Rectangle {
 
 
     @Setter
-    private double velocityValue = 0.6;
+    private double velocityValue = 0.45;
     private double velocity = 0.0;
 
     @Setter
     private GameDifficultyLevel gameDifficultyLevel;
 
+    private int direction;
+    private boolean pause;
+
     public Paddle(double x, double y, double realLeftWindowBound, double realRightWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         super(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
-        switch (difficultyLevel) {
+        this.gameDifficultyLevel = difficultyLevel;
+        switch (this.gameDifficultyLevel) {
             case LIGHT:
                 this.setSizeX(PADDLE_WIDTH);
                 break;
@@ -32,44 +36,65 @@ public class Paddle extends Rectangle {
                 break;
             case HARD:
                 this.setSizeX(PADDLE_WIDTH - 30.0);
-                this.setVelocityValue(0.55);
+                this.setVelocityValue(0.42);
                 break;
             case VERY_HARD:
                 this.setSizeX(PADDLE_WIDTH - 45.0);
-                this.setVelocityValue(0.50);
+                this.setVelocityValue(0.38);
                 break;
             case YOU_ARE_GOD:
                 this.setSizeX(PADDLE_WIDTH - 60.0);
-                this.setVelocityValue(0.42);
+                this.setVelocityValue(0.33);
                 break;
         }
         REAL_LEFT_WINDOW_BOUND = realLeftWindowBound;
         REAL_RIGHT_WINDOW_BOUND = realRightWindowBound;
-        gameDifficultyLevel = difficultyLevel;
+
+        start();
     }
 
     public void update() {
-        if (left() < REAL_LEFT_WINDOW_BOUND && velocity < 0.0)
-            velocity = 0.0;
-        if (right() > REAL_RIGHT_WINDOW_BOUND && velocity > 0.0)
-            velocity = 0.0;
-        this.setX(this.getX() + velocity * PADDLE_SIMPLE_STEP);
+        if (!pause) {
+            if (left() < REAL_LEFT_WINDOW_BOUND && velocity < 0.0)
+                pause();
+            if (right() > REAL_RIGHT_WINDOW_BOUND && velocity > 0.0)
+                pause();
+            this.setX(this.getX() + velocity * PADDLE_SIMPLE_STEP);
+        }
     }
 
+
     public void stopMove() {
-        velocity = 0.0;
+        this.velocity = 0.0;
     }
 
     public void moveLeft() {
-        velocity = -velocityValue;
+        this.velocity = -this.velocityValue;
     }
 
     public void moveRight() {
-        velocity = velocityValue;
+        this.velocity = this.velocityValue;
     }
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRect((int) (left()), (int) (top()), (int) getSizeX(), (int) getSizeY());
+    }
+
+    @Override
+    public void start() {
+        velocity = 0.0;
+        pause = false;
+    }
+
+    @Override
+    public void continueGame() {
+        pause = false;
+    }
+
+    @Override
+    public void pause() {
+        pause = true;
     }
 }
