@@ -1,37 +1,34 @@
-package by.bsu.kulich;
+package by.bsu.kulich.game.elements;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class Rectangle extends AbstractGameElement {
 
     private double x, y;
     private double sizeX, sizeY;
 
-    public Rectangle(double x, double y, double sizeX, double sizeY) {
-        this.x = x;
-        this.y = y;
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-    }
-
     @Override
-    double left() {
+    public double left() {
         return x - sizeX / 2.0;
     }
 
     @Override
-    double right() {
+    public double right() {
         return x + sizeX / 2.0;
     }
 
     @Override
-    double top() {
+    public double top() {
         return y - sizeY / 2.0;
     }
 
     @Override
-    double bottom() {
+    public double bottom() {
         return y + sizeY / 2.0;
     }
 }

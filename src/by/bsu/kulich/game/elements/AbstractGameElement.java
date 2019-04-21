@@ -1,4 +1,4 @@
-package by.bsu.kulich;
+package by.bsu.kulich.game.elements;
 
 public abstract class AbstractGameElement {
 
@@ -9,12 +9,12 @@ public abstract class AbstractGameElement {
      * of game element
      */
 
-    abstract double left();
+    abstract public double left();
 
-    abstract double right();
+    abstract public double right();
 
-    abstract double top();
+    abstract public double top();
 
-    abstract double bottom();
+    abstract public double bottom();
 
 }
