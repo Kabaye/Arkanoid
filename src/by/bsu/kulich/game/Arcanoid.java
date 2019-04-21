@@ -76,7 +76,7 @@ public class Arcanoid extends JFrame {
         try {
             g = bf.getDrawGraphics();
 
-            g.setColor(Color.black);
+            g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
             ball.draw(g);
