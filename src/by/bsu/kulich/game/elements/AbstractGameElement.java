@@ -1,5 +1,7 @@
 package by.bsu.kulich.game.elements;
 
+import java.awt.*;
+
 public abstract class AbstractGameElement {
 
     /**
@@ -16,5 +18,7 @@ public abstract class AbstractGameElement {
     abstract public double top();
 
     abstract public double bottom();
+
+    abstract public void draw(Graphics g);
 
 }
