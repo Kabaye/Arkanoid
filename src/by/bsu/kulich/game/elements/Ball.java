@@ -30,7 +30,7 @@ public class Ball extends AbstractGameElement implements Pausable {
 
     private boolean pause;
     @Getter
-    private boolean died;
+    private boolean died = true;
 
     public Ball(int x, int y, double realLeftWindowBound, double realTopWindowBound, double realRightWindowBound, double realBottomWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         this.x = x;
@@ -47,7 +47,7 @@ public class Ball extends AbstractGameElement implements Pausable {
                 break;
             case MEDIUM:
                 this.setColor(Color.GREEN);
-                this.setBallVelocity(0.32);
+                this.setBallVelocity(0.6);
                 break;
             case HARD:
                 this.setColor(Color.RED);
@@ -71,6 +71,12 @@ public class Ball extends AbstractGameElement implements Pausable {
                 (int) radius * 2);
     }
 
+    public void drawIfDied(Graphics g, Paddle p) {
+        g.setColor(color);
+        g.fillOval((int) (p.getX() - radius), (int) (p.getY() - p.getSizeY() / 2.0 - radius * 2), (int) radius * 2,
+                (int) radius * 2);
+    }
+
     @Override
     public void start() {
         pause = false;
@@ -89,13 +95,11 @@ public class Ball extends AbstractGameElement implements Pausable {
         pause = true;
     }
 
-    public void die(Paddle paddle) {
+    public void die() {
         died = true;
-        x = paddle.getX();
-        y = paddle.getY() - 2 * radius;
     }
 
-    public void update(Score score, Paddle paddle) {
+    public void update(View view, Paddle paddle) {
         if (!pause && !died) {
             x += velocityX * BALL_SIMPLE_STEP;
             y += velocityY * BALL_SIMPLE_STEP;
@@ -108,9 +112,12 @@ public class Ball extends AbstractGameElement implements Pausable {
                 velocityY = -velocityY;
             } else if (bottom() > REAL_BOTTOM_WINDOW_BOUND) {
                 velocityY = -ballVelocity;
-                die(paddle);
-                score.die();
+                die();
+                view.die();
             }
+        } else if (died && !pause) {
+            x = paddle.getX();
+            y = paddle.getY() - 2 * radius;
         }
     }
 
