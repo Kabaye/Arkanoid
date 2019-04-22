@@ -56,9 +56,9 @@ public class Paddle extends Rectangle implements Pausable {
     public void update() {
         if (!pause) {
             if (left() < REAL_LEFT_WINDOW_BOUND && velocity < 0.0)
-                pause();
+                velocity = 0.0;
             if (right() > REAL_RIGHT_WINDOW_BOUND && velocity > 0.0)
-                pause();
+                velocity = 0.0;
             this.setX(this.getX() + velocity * PADDLE_SIMPLE_STEP);
         }
     }
