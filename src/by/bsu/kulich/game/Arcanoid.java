@@ -1,6 +1,7 @@
 package by.bsu.kulich.game;
 
-import by.bsu.kulich.game.elements.controller.PaddleController;
+import by.bsu.kulich.game.elements.Pausable;
+import by.bsu.kulich.game.elements.controller.GameController;
 import by.bsu.kulich.game.elements.entity.*;
 import by.bsu.kulich.game.elements.view.View;
 import lombok.Getter;
@@ -13,36 +14,56 @@ import java.util.List;
 
 import static by.bsu.kulich.game.elements.entity.Block.BLOCK_HEIGHT;
 import static by.bsu.kulich.game.elements.entity.Block.BLOCK_WIDTH;
-import static by.bsu.kulich.game.elements.view.View.*;
+import static by.bsu.kulich.game.elements.view.View.REAL_BOTTOM_WINDOW_BOUND;
+import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 
-public class Arcanoid extends JFrame {
+public class Arcanoid extends JFrame implements Pausable {
 
     @Getter
-    private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, REAL_LEFT_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
+    private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.MEDIUM;
+
     @Getter
-    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 45, GameDifficultyLevel.MEDIUM);
+    private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, gameDifficultyLevel);
+    @Getter
+    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 45, gameDifficultyLevel);
     private List<Block> blocks = new ArrayList<>();
     private View view;
-    private PaddleController controller;
+    private GameController gameController;
 
     @Getter
     @Setter
-    private int amountOfBlocks = 50;
+    private int amountOfBlocks = 55;
 
     @Setter
     @Getter
     private boolean running;
 
+    @Setter
+    @Getter
+    private boolean loosed;
+
+    @Setter
+    @Getter
+    private boolean won;
+
+    @Getter
+    private int score;
+    @Getter
+    private int lives;
+
     private Arcanoid() {
         super("KABAYE INC. ARCANOID®");
 
-        view = new View(GameDifficultyLevel.MEDIUM, this);
+        view = new View(this);
 
-        this.controller = new PaddleController(this);
+        this.gameController = new GameController(this);
 
-        this.addKeyListener(controller);
+        this.addKeyListener(gameController);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        score = 0;
+        lives = 5;
 
         initializeBricks();
     }
@@ -84,8 +105,7 @@ public class Arcanoid extends JFrame {
                 else if (ball.getX() < paddle.getX())
                     ball.setVelocityX(ball.getBallVelocity() * (ball.getX() - paddle.getX()) / (paddle.getSizeX() / 2.0));
             } else {
-                ball.die();
-                view.die();
+                die();
             }
         }
     }
@@ -107,7 +127,7 @@ public class Arcanoid extends JFrame {
             if (((bX - blX) <= -blW / 2.0) && (Math.abs(bY - blY) <= blH / 2.0) && (bY < blY + blH / 2.0) && (bY > blY - blH / 2.0)) {
                 ball.setVelocityX(-ball.getVelocityX());
                 block.setDestroyed(true);
-                view.increaseScore();
+                score++;
             }
 
             /**
@@ -116,7 +136,7 @@ public class Arcanoid extends JFrame {
             else if ((Math.abs(bX - blX) <= blW / 2.0) && ((bY - blY) >= blH / 2.0)) {
                 ball.setVelocityY(-ball.getVelocityY());
                 block.setDestroyed(true);
-                view.increaseScore();
+                score++;
             }
 
             /**
@@ -125,7 +145,7 @@ public class Arcanoid extends JFrame {
             else if (((bX - blX) >= blW / 2.0) && (Math.abs(bY - blY) <= blH / 2.0) && (bY < blY + blH / 2.0) && (bY > blY - blH / 2.0)) {
                 ball.setVelocityX(-ball.getVelocityX());
                 block.setDestroyed(true);
-                view.increaseScore();
+                score++;
             }
 
             /**
@@ -134,13 +154,28 @@ public class Arcanoid extends JFrame {
             else if ((Math.abs(bX - blX) <= blW / 2.0) && ((bY - blY) <= -blH / 2.0)) {
                 ball.setVelocityY(-ball.getVelocityY());
                 block.setDestroyed(true);
-                view.increaseScore();
+                score++;
+            }
+            if (score == amountOfBlocks)
+                won = true;
+            else {
+                view.updateScore();
             }
         }
     }
 
+    public void die() {
+        ball.die();
+        lives--;
+        if (lives == 0) {
+            loosed = true;
+        } else {
+            view.updateScore();
+        }
+    }
+
     private void update() {
-        ball.update(view, paddle);
+        ball.update(this, paddle);
         paddle.update();
 
         testCollision(paddle, ball);
@@ -156,13 +191,33 @@ public class Arcanoid extends JFrame {
     private void run() {
         running = true;
         while (running) {
-
-            update();
-            view.drawScene(ball, blocks, paddle);
-
+            if (won) {
+                view.won();
+            } else if (loosed) {
+                view.loosed();
+            } else {
+                update();
+                view.drawScene(ball, blocks, paddle);
+            }
         }
-
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
 
+    @Override
+    public void start() {
+        ball.start();
+        paddle.start();
+    }
+
+    @Override
+    public void continueGame() {
+        ball.continueGame();
+        paddle.continueGame();
+    }
+
+    @Override
+    public void pause() {
+        ball.pause();
+        paddle.pause();
     }
 }

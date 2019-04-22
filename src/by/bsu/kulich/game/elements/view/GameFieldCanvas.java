@@ -2,9 +2,11 @@ package by.bsu.kulich.game.elements.view;
 
 import by.bsu.kulich.game.elements.entity.Ball;
 import by.bsu.kulich.game.elements.entity.Block;
+import by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
 import by.bsu.kulich.game.elements.entity.Paddle;
 import lombok.Getter;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.List;
@@ -15,13 +17,20 @@ import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 @Getter
 class GameFieldCanvas extends Canvas {
     private final static String FONT = "Arial";
+    private final String LEVEL_COMPLETED_IMAGE_PATH = "src/by/bsu/kulich/game/resources/won.jpg";
+    private final ImageIcon LEVEL_COMPLETED_IMAGE = new ImageIcon(LEVEL_COMPLETED_IMAGE_PATH);
+
+    private final String LEVEL_COMPLETED_GOD_LEVEL_IMAGE_PATH = "src/by/bsu/kulich/game/resources/level1.jpg";
+    private final ImageIcon LEVEL_COMPLETED_GOD_LEVEL_IMAGE = new ImageIcon(LEVEL_COMPLETED_GOD_LEVEL_IMAGE_PATH);
+
+    private final String LEVEL_LOOSED_IMAGE_PATH = "src/by/bsu/kulich/game/resources/loose.jpg";
+    private final ImageIcon LEVEL_LOOSED_IMAGE = new ImageIcon(LEVEL_LOOSED_IMAGE_PATH);
 
     private Font font;
 
     GameFieldCanvas() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         font = new Font(FONT, Font.PLAIN, 12);
-        //this.setVisible(true);
     }
 
     void initBufferStrategy() {
@@ -83,11 +92,42 @@ class GameFieldCanvas extends Canvas {
             drawScore(g, view);
 
             // real size of our window
-
            /* g.setColor(Color.RED);
             g.drawRect((int)REAL_LEFT_WINDOW_BOUND,(int)REAL_TOP_WINDOW_BOUND,5,5);
             g.drawRect((int) REAL_RIGHT_WINDOW_BOUND-5, (int)REAL_BOTTOM_WINDOW_BOUND-5,5,5);*/
+        } finally {
+            g.dispose();
+        }
 
+        bf.show();
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    void drawWonScene(GameDifficultyLevel level) {
+        BufferStrategy bf = this.getBufferStrategy();
+        Graphics g = null;
+        try {
+            g = bf.getDrawGraphics();
+
+            if (level == GameDifficultyLevel.YOU_ARE_GOD)
+                g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
+            else
+                g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
+        } finally {
+            g.dispose();
+        }
+
+        bf.show();
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    void drawLoosedScene() {
+        BufferStrategy bf = this.getBufferStrategy();
+        Graphics g = null;
+        try {
+            g = bf.getDrawGraphics();
+
+            g.drawImage(LEVEL_LOOSED_IMAGE.getImage(), 0, 0, null);
         } finally {
             g.dispose();
         }

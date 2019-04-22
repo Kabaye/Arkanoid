@@ -1,7 +1,7 @@
 package by.bsu.kulich.game.elements.entity;
 
+import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.Pausable;
-import by.bsu.kulich.game.elements.view.View;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -42,7 +42,7 @@ public class Ball extends AbstractGameElement implements Pausable {
                 break;
             case MEDIUM:
                 this.setColor(Color.GREEN);
-                this.setBallVelocity(0.8);
+                this.setBallVelocity(2.0);
                 break;
             case HARD:
                 this.setColor(Color.RED);
@@ -81,7 +81,7 @@ public class Ball extends AbstractGameElement implements Pausable {
         died = true;
     }
 
-    public void update(View view, Paddle paddle) {
+    public void update(Arcanoid arcanoid, Paddle paddle) {
         if (!pause && !died) {
             x += velocityX * BALL_SIMPLE_STEP;
             y += velocityY * BALL_SIMPLE_STEP;
@@ -94,8 +94,7 @@ public class Ball extends AbstractGameElement implements Pausable {
                 velocityY = -velocityY;
             } else if (bottom() > REAL_BOTTOM_WINDOW_BOUND) {
                 velocityY = -ballVelocity;
-                die();
-                view.die();
+                arcanoid.die();
             }
         } else if (died && !pause) {
             x = paddle.getX();

@@ -4,13 +4,14 @@ import by.bsu.kulich.game.elements.Pausable;
 import lombok.NonNull;
 import lombok.Setter;
 
+import static by.bsu.kulich.game.elements.view.View.REAL_LEFT_WINDOW_BOUND;
+import static by.bsu.kulich.game.elements.view.View.REAL_RIGHT_WINDOW_BOUND;
+
 public class Paddle extends Rectangle implements Pausable {
 
     private static final double PADDLE_WIDTH = 110.0;
     private static final double PADDLE_HEIGHT = 15.0;
     private static final double PADDLE_SIMPLE_STEP = 1.0;
-    private final int REAL_LEFT_WINDOW_BOUND;
-    private final int REAL_RIGHT_WINDOW_BOUND;
 
     private double velocityValue = 0.45;
     private double velocity = 0.0;
@@ -21,7 +22,7 @@ public class Paddle extends Rectangle implements Pausable {
     private int direction;
     private boolean pause;
 
-    public Paddle(double x, double y, int realLeftWindowBound, int realRightWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
+    public Paddle(double x, double y, @NonNull GameDifficultyLevel difficultyLevel) {
         super(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
         this.gameDifficultyLevel = difficultyLevel;
         switch (this.gameDifficultyLevel) {
@@ -44,8 +45,6 @@ public class Paddle extends Rectangle implements Pausable {
                 this.velocityValue = 0.5;
                 break;
         }
-        REAL_LEFT_WINDOW_BOUND = realLeftWindowBound;
-        REAL_RIGHT_WINDOW_BOUND = realRightWindowBound;
 
         start();
     }
