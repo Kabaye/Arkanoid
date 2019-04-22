@@ -106,9 +106,7 @@ public class Arcanoid extends JFrame implements Pausable {
             double pW = paddle.getSizeX();
 
             if ((Math.abs(bX - pX) <= pW / 2.0) && ((bY - pY) <= -pH / 2.0)) {
-                //System.out.println(Math.abs(ball.getVelocityY()));
                 ball.setVelocityY(-ball.getVelocityY());
-                System.out.println(ball.getBallVelocity() * (bX - pX) / (pW / 2.0));
                 ball.setVelocityX(ball.getBallVelocity() * (bX - pX) / (pW / 2.0));
             } else {
                 die();
