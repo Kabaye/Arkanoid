@@ -140,7 +140,7 @@ public class View {
 
     public void won() {
         text = "Вы выиграли! Чтобы перейти на следующий уровень, нажмите \"N\".\n Если хотите переиграть этот уровень на более высоком уровне сложности, нажмите \"S\".";
-        gameFieldCanvas.drawWonScene(arcanoid.getGameDifficultyLevel(), this.text);
+        gameFieldCanvas.drawWonScene(arcanoid.getGameDifficultyLevel(), arcanoid.getGameLevel(), this.text);
     }
 
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {

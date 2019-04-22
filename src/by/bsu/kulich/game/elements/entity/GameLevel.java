@@ -5,7 +5,7 @@ public enum GameLevel {
     MEDIUM,
     FINAL;
 
-    public static GameLevel nextGameDifficultyLevel(GameLevel i) {
+    public static GameLevel nextGameLevel(GameLevel i) {
         switch (i) {
             case BEGINNING:
                 return MEDIUM;

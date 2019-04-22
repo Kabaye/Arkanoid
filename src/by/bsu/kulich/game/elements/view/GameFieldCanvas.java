@@ -1,9 +1,6 @@
 package by.bsu.kulich.game.elements.view;
 
-import by.bsu.kulich.game.elements.entity.Ball;
-import by.bsu.kulich.game.elements.entity.Block;
-import by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
-import by.bsu.kulich.game.elements.entity.Paddle;
+import by.bsu.kulich.game.elements.entity.*;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -26,7 +23,11 @@ class GameFieldCanvas extends Canvas {
     private final String LEVEL_LOOSED_IMAGE_PATH = "src/by/bsu/kulich/game/resources/loose.jpg";
     private final ImageIcon LEVEL_LOOSED_IMAGE = new ImageIcon(LEVEL_LOOSED_IMAGE_PATH);
 
+    private final String LEVEL_COMPLETED_GOD_IMAGE_PATH = "src/by/bsu/kulich/game/resources/you_are_god.jpg";
+    private final ImageIcon LEVEL_COMPLETED_GOD_IMAGE = new ImageIcon(LEVEL_COMPLETED_GOD_IMAGE_PATH);
+
     private Font font;
+
 
     GameFieldCanvas() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -105,42 +106,7 @@ class GameFieldCanvas extends Canvas {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    void drawWonScene(GameDifficultyLevel level, String text) {
-        BufferStrategy bf = this.getBufferStrategy();
-        Graphics g = null;
-        try {
-            g = bf.getDrawGraphics();
-            font = font.deriveFont(24f);
-            FontMetrics fontMetrics = g.getFontMetrics(font);
-            g.setColor(Color.BLUE);
-            g.setFont(font);
-            int firstPart = text.indexOf('\n');
-
-            int titleLen = fontMetrics.stringWidth(text.substring(0, firstPart));
-            int titleLen1 = fontMetrics.stringWidth(text.substring(firstPart));
-            int titleHeight = fontMetrics.getHeight();
-
-            if (level == GameDifficultyLevel.YOU_ARE_GOD) {
-                g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
-
-
-                g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
-                        titleHeight + 5);
-            } else {
-
-                g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
-                g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
-                        titleHeight + 5);
-                g.drawString(text.substring(firstPart), (WINDOW_WIDTH / 2) - (titleLen1 / 2),
-                        2 * titleHeight + 5);
-            }
-        } finally {
-            g.dispose();
-        }
-
-        bf.show();
-        Toolkit.getDefaultToolkit().sync();
-    }
+    private boolean[] easterEgg = {false, false, false};
 
     void drawLoosedScene(String text) {
         BufferStrategy bf = this.getBufferStrategy();
@@ -161,6 +127,62 @@ class GameFieldCanvas extends Canvas {
             g.drawString(text, (WINDOW_WIDTH / 2) - (titleLen / 2),
                     titleHeight + 5);
 
+        } finally {
+            g.dispose();
+        }
+
+        bf.show();
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    void drawWonScene(GameDifficultyLevel level, GameLevel gameLevel, String text) {
+        if (level == GameDifficultyLevel.YOU_ARE_GOD) {
+            if (gameLevel == GameLevel.BEGINNING)
+                easterEgg[0] = true;
+            else if (gameLevel == GameLevel.MEDIUM)
+                easterEgg[1] = true;
+            else if (gameLevel == GameLevel.FINAL)
+                easterEgg[2] = true;
+        }
+        boolean easterEggFlag = true;
+        for (int i = 0; i < 3; i++)
+            if (!easterEgg[i])
+                easterEggFlag = false;
+
+        BufferStrategy bf = this.getBufferStrategy();
+        Graphics g = null;
+        try {
+            g = bf.getDrawGraphics();
+            font = font.deriveFont(24f);
+            FontMetrics fontMetrics = g.getFontMetrics(font);
+            g.setColor(Color.BLUE);
+            g.setFont(font);
+            int firstPart = text.indexOf('\n');
+
+            int titleLen = fontMetrics.stringWidth(text.substring(0, firstPart));
+            int titleLen1 = fontMetrics.stringWidth(text.substring(firstPart));
+            int titleHeight = fontMetrics.getHeight();
+
+            if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL && easterEggFlag) {
+                g.drawImage(LEVEL_COMPLETED_GOD_IMAGE.getImage(), 0, 0, null);
+            } else if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL) {
+                g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
+                g.drawString("Вы прошли последний уровень! 10Q за игру!!!", WINDOW_WIDTH / 2 - 300, 40);
+            } else if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel != GameLevel.FINAL) {
+                g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
+                g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
+                        titleHeight + 5);
+            } else if (level != GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL) {
+                g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
+                g.drawString(text.substring(firstPart), (WINDOW_WIDTH / 2) - (titleLen1 / 2),
+                        2 * titleHeight + 5);
+            } else {
+                g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
+                g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
+                        titleHeight + 5);
+                g.drawString(text.substring(firstPart), (WINDOW_WIDTH / 2) - (titleLen1 / 2),
+                        2 * titleHeight + 5);
+            }
         } finally {
             g.dispose();
         }

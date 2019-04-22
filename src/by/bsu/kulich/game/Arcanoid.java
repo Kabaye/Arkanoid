@@ -19,7 +19,7 @@ import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 public class Arcanoid extends JFrame implements Pausable {
 
     @Getter
-    private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.MEDIUM;
+    private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.YOU_ARE_GOD;
 
     @Getter
     private GameLevel gameLevel = GameLevel.FINAL;
@@ -214,13 +214,15 @@ public class Arcanoid extends JFrame implements Pausable {
     public void restart() {
         ball.setGameDifficultyLevel(this.getGameDifficultyLevel());
         paddle.setGameDifficultyLevel(this.getGameDifficultyLevel());
+        gameLevelCreator.setGameLevel(this.getGameLevel());
         ball.die();
         lives = 2;
         won = false;
         loosed = false;
         score = 0;
         view.updateScore();
-        amountOfBlocks = gameLevelCreator.getBlockAmount();
+//        amountOfBlocks = gameLevelCreator.getBlockAmount();
+        amountOfBlocks = 1/*gameLevelCreator.getBlockAmount()*/;
         gameLevelCreator.createNewMap(blocks);
     }
 

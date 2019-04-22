@@ -2,6 +2,7 @@ package by.bsu.kulich.game.elements.controller;
 
 import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
+import by.bsu.kulich.game.elements.entity.GameLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,6 +65,12 @@ public class GameController implements KeyListener {
                     arcanoid.restart();
                 }
             }
+            case KeyEvent.VK_N:
+                if (arcanoid.isWon() && arcanoid.getGameLevel() != GameLevel.FINAL) {
+                    arcanoid.setGameLevel(GameLevel.nextGameLevel(arcanoid.getGameLevel()));
+                }
+
+                break;
             default:
                 break;
         }
