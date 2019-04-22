@@ -55,13 +55,13 @@ public class GameController implements KeyListener {
 
             case KeyEvent.VK_R:
                 if (arcanoid.isLoosed())
-                    arcanoid.repeat();
+                    arcanoid.restart();
                 break;
 
             case KeyEvent.VK_S: {
                 if (arcanoid.isWon() && arcanoid.getGameDifficultyLevel() != GameDifficultyLevel.YOU_ARE_GOD) {
                     arcanoid.setGameDifficultyLevel(GameDifficultyLevel.nextGameDifficultyLevel(arcanoid.getGameDifficultyLevel()));
-                    arcanoid.repeat();
+                    arcanoid.restart();
                 }
             }
             default:

@@ -22,4 +22,14 @@ public enum GameDifficultyLevel {
         }
         return null;
     }
+
+    public static String[] getAllStringNames() {
+        String[] strings = new String[5];
+        strings[0] = GameDifficultyLevel.LIGHT.toString();
+        strings[1] = GameDifficultyLevel.MEDIUM.toString();
+        strings[2] = GameDifficultyLevel.HARD.toString();
+        strings[3] = GameDifficultyLevel.VERY_HARD.toString();
+        strings[4] = GameDifficultyLevel.YOU_ARE_GOD.toString();
+        return strings;
+    }
 }
