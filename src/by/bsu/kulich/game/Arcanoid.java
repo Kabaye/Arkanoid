@@ -198,6 +198,7 @@ public class Arcanoid extends JFrame implements Pausable {
     }
 
     private void run() {
+        view.playMusic();
         running = true;
         view.showAllHotKeysDialog();
         Arcanoid arcanoid = this;

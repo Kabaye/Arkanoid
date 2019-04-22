@@ -3,6 +3,9 @@ package by.bsu.kulich.game.elements.view;
 import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.controller.MenuController;
 import by.bsu.kulich.game.elements.entity.*;
+import by.bsu.kulich.game.elements.loader.ResourceLoader;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -25,10 +28,12 @@ public class View {
 
     public final static String[] ACTION_COMMANDS = {"new", "difficulty", "level", "hot", "about", "close"};
 
-    private final String ABOUT_ICON_PATH = "A.jpg";
+    private final String ABOUT_ICON_PATH = "images/A.jpg";
     private final ImageIcon ABOUT_ICON = new ImageIcon(getImage(ABOUT_ICON_PATH));
-    private final String INFO_ICON_PATH = "info.png";
+    private final String INFO_ICON_PATH = "images/info.png";
     private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
+
+    private final String MUSIC_PATH = "music/1.mp3";
 
     private JMenuBar menuBar;
     @Getter
@@ -185,5 +190,33 @@ public class View {
 
         arcanoid.setJMenuBar(menuBar);
     }
+
+    public void playMusic() {
+        Music music = new Music();
+    }
+
+    private class Music extends Thread {
+
+        private Music() {
+            start();
+        }
+
+        @Override
+        public synchronized void start() {
+            super.start();
+        }
+
+        @Override
+        public void run() {
+            try {
+                Player player = new Player(ResourceLoader.getMusicStream(MUSIC_PATH));
+                player.play();
+            } catch (JavaLayerException exc) {
+                System.out.println("LayerException");
+            }
+        }
+    }
+
+
 
 }
