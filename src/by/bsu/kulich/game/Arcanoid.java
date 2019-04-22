@@ -30,8 +30,12 @@ public class Arcanoid extends JFrame {
     private Ball ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 45,
             REAL_LEFT_WINDOW_BOUND, REAL_TOP_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, REAL_BOTTOM_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
     private List<Block> blocks = new ArrayList<>();
-    private Score score = new Score(GameDifficultyLevel.MEDIUM, 50);
+    private View view = new View(GameDifficultyLevel.MEDIUM, this);
     private PaddleController controller;
+
+    @Getter
+    @Setter
+    private int amountOfBlocks = 50;
 
     @Setter
     @Getter
@@ -39,17 +43,26 @@ public class Arcanoid extends JFrame {
 
     private Arcanoid() {
         super("KABAYE INC. ARCANOID®");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+
+        //this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setVisible(true);
+        this.view.menu();
+
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
+
+        this.setVisible(true);
+
+//        pack();
+
 
         this.createBufferStrategy(2);
 
         this.controller = new PaddleController(this);
 
         this.addKeyListener(controller);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         initializeBricks();
     }
@@ -78,7 +91,10 @@ public class Arcanoid extends JFrame {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
-            ball.draw(g);
+            if (ball.isDied())
+                ball.drawIfDied(g, paddle);
+            else
+                ball.draw(g);
             paddle.draw(g);
             for (Block block : blocks) {
                 block.draw(g);
@@ -91,7 +107,7 @@ public class Arcanoid extends JFrame {
             g.drawRect((int)REAL_LEFT_WINDOW_BOUND,(int)REAL_TOP_WINDOW_BOUND,5,5);
             g.drawRect((int) REAL_RIGHT_WINDOW_BOUND-5, (int)REAL_BOTTOM_WINDOW_BOUND-5,5,5);*/
 
-            score.draw(g);
+            view.draw(g);
 
         } finally {
             g.dispose();
@@ -124,8 +140,8 @@ public class Arcanoid extends JFrame {
                 else if (ball.getX() < paddle.getX())
                     ball.setVelocityX(ball.getBallVelocity() * (ball.getX() - paddle.getX()) / (paddle.getSizeX() / 2.0));
             } else {
-                ball.die(paddle);
-                score.die();
+                ball.die();
+                view.die();
             }
         }
     }
@@ -147,7 +163,7 @@ public class Arcanoid extends JFrame {
             if (((bX - blX) <= -blW / 2.0) && (Math.abs(bY - blY) <= blH / 2.0) && (bY < blY + blH / 2.0) && (bY > blY - blH / 2.0)) {
                 ball.setVelocityX(-ball.getVelocityX());
                 block.setDestroyed(true);
-                score.increaseScore();
+                view.increaseScore();
             }
 
             /**
@@ -156,7 +172,7 @@ public class Arcanoid extends JFrame {
             else if ((Math.abs(bX - blX) <= blW / 2.0) && ((bY - blY) >= blH / 2.0)) {
                 ball.setVelocityY(-ball.getVelocityY());
                 block.setDestroyed(true);
-                score.increaseScore();
+                view.increaseScore();
             }
 
             /**
@@ -165,7 +181,7 @@ public class Arcanoid extends JFrame {
             else if (((bX - blX) >= blW / 2.0) && (Math.abs(bY - blY) <= blH / 2.0) && (bY < blY + blH / 2.0) && (bY > blY - blH / 2.0)) {
                 ball.setVelocityX(-ball.getVelocityX());
                 block.setDestroyed(true);
-                score.increaseScore();
+                view.increaseScore();
             }
 
             /**
@@ -174,13 +190,13 @@ public class Arcanoid extends JFrame {
             else if ((Math.abs(bX - blX) <= blW / 2.0) && ((bY - blY) <= -blH / 2.0)) {
                 ball.setVelocityY(-ball.getVelocityY());
                 block.setDestroyed(true);
-                score.increaseScore();
+                view.increaseScore();
             }
         }
     }
 
     private void update() {
-        ball.update(score, paddle);
+        ball.update(view, paddle);
         paddle.update();
 
         testCollision(paddle, ball);
@@ -194,13 +210,6 @@ public class Arcanoid extends JFrame {
     }
 
     private void run() {
-        BufferStrategy bf = this.getBufferStrategy();
-        Graphics g = bf.getDrawGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        g.dispose();
-        bf.show();
-
         running = true;
 
         while (running) {
