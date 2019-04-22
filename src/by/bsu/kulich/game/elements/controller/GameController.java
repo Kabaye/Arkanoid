@@ -7,14 +7,14 @@ import lombok.Setter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class PaddleController implements KeyListener {
+public class GameController implements KeyListener {
     private Arcanoid arcanoid;
 
     @Getter
     @Setter
     private boolean isStarted;
 
-    public PaddleController(Arcanoid arcanoid) {
+    public GameController(Arcanoid arcanoid) {
         this.arcanoid = arcanoid;
         isStarted = false;
     }
@@ -50,6 +50,11 @@ public class PaddleController implements KeyListener {
                     arcanoid.getBall().pause();
                     arcanoid.getPaddle().pause();
                 }
+                break;
+
+            case KeyEvent.VK_R:
+                if (arcanoid.isLoosed())
+                    arcanoid.repeat();
                 break;
             default:
                 break;

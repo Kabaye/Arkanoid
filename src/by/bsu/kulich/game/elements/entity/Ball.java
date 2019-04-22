@@ -54,7 +54,7 @@ public class Ball extends AbstractGameElement implements Pausable {
                 break;
             case YOU_ARE_GOD:
                 this.setColor(Color.GRAY);
-                this.setBallVelocity(0.666);
+                this.setBallVelocity(3.0);
                 break;
         }
     }

@@ -2,22 +2,22 @@ package by.bsu.kulich.game.elements.controller;
 
 import by.bsu.kulich.game.elements.view.View;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StartGameController implements ActionListener {
-    private JButton button;
+import static by.bsu.kulich.game.elements.view.View.ACTION_COMMANDS;
+
+public class MenuController implements ActionListener {
     private View view;
 
-    public StartGameController(JButton button, View view) {
-        this.button = button;
+    public MenuController(View view) {
         this.view = view;
-        this.button.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // view.closeMenu();
+        if (e.getActionCommand() == ACTION_COMMANDS[0]) {
+
+        }
     }
 }

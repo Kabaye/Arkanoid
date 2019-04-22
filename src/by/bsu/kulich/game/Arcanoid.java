@@ -203,6 +203,10 @@ public class Arcanoid extends JFrame implements Pausable {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    public void repeat() {
+
+    }
+
     @Override
     public void start() {
         ball.start();

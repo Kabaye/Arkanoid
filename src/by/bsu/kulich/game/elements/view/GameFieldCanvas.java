@@ -103,16 +103,31 @@ class GameFieldCanvas extends Canvas {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    void drawWonScene(GameDifficultyLevel level) {
+    void drawWonScene(GameDifficultyLevel level, View view) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
         try {
             g = bf.getDrawGraphics();
+            font = font.deriveFont(15f);
+            FontMetrics fontMetrics = g.getFontMetrics(font);
+            g.setColor(Color.BLUE);
+            g.setFont(font);
 
-            if (level == GameDifficultyLevel.YOU_ARE_GOD)
+            if (level == GameDifficultyLevel.YOU_ARE_GOD) {
                 g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
-            else
+                int titleLen = fontMetrics.stringWidth(view.getText().substring(0, 61));
+                int titleHeight = fontMetrics.getHeight();
+                g.drawString(view.getText().substring(0, 61), (WINDOW_WIDTH / 2) - (titleLen / 2),
+                        titleHeight + 5);
+            } else {
                 g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
+
+
+                int titleLen = fontMetrics.stringWidth(view.getText());
+                int titleHeight = fontMetrics.getHeight();
+                g.drawString(view.getText(), (WINDOW_WIDTH / 2) - (titleLen / 2),
+                        titleHeight + 5);
+            }
         } finally {
             g.dispose();
         }
@@ -121,7 +136,7 @@ class GameFieldCanvas extends Canvas {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    void drawLoosedScene() {
+    void drawLoosedScene(View view) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
         try {

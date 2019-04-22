@@ -71,11 +71,13 @@ public class View {
     }
 
     public void loosed() {
-        gameFieldCanvas.drawLoosedScene();
+        text = "Вы проиграли! Чтобы переиграть уровень, нажмите \"R\"";
+        gameFieldCanvas.drawLoosedScene(this);
     }
 
     public void won() {
-        gameFieldCanvas.drawWonScene(arcanoid.getGameDifficultyLevel());
+        text = "Вы выиграли! Чтобы перейти на следующий уровень, нажмите \"W\". Если хотите переиграть этот уровень на более высоком уровне сложности, нажмите \"S\".";
+        gameFieldCanvas.drawWonScene(arcanoid.getGameDifficultyLevel(), this);
     }
 
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
