@@ -31,18 +31,14 @@ public class View {
     private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
 
     private JMenuBar menuBar;
+    @Getter
     private JMenu menu;
-    @Getter
+
     private JMenuItem newGame;
-    @Getter
     private JMenuItem changeDifficulty;
-    @Getter
     private JMenuItem changeLevel;
-    @Getter
     private JMenuItem hotKeys;
-    @Getter
     private JMenuItem about;
-    @Getter
     private JMenuItem close;
 
     private MenuController menuController;
@@ -119,7 +115,8 @@ public class View {
                 .add("\"CTRL\" - поставить игру на паузу;")
                 .add("\"R\" - повторить игру в случае поражения;")
                 .add("\"S\" - повторить игру на этом же уровне со следующим уровнем сложности, если вы выиграли (если он доступен);")
-                .add("\"N\" - следующий уровень на текущем уровне сложности, если вы выиграли;");
+                .add("\"N\" - следующий уровень на текущем уровне сложности, если вы выиграли;")
+                .add("\"М\" - открывает меню (паузу нужно нажать вручную!);");
         JOptionPane.showMessageDialog(null, hotKeys.toString(), "Hot keys info", JOptionPane.INFORMATION_MESSAGE, INFO_ICON);
     }
 
@@ -151,7 +148,6 @@ public class View {
 
     private void createMenu() {
         menuBar = new JMenuBar();
-        menuController = new MenuController(arcanoid);
 
         menu = new JMenu("Меню");
         newGame = new JMenuItem("Начать новую игру");
@@ -166,6 +162,8 @@ public class View {
         about.setActionCommand(ACTION_COMMANDS[4]);
         close = new JMenuItem("Закрыть игру");
         close.setActionCommand(ACTION_COMMANDS[5]);
+
+        menuController = new MenuController(arcanoid, menu);
 
         newGame.addActionListener(menuController);
         changeDifficulty.addActionListener(menuController);

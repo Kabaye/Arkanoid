@@ -64,14 +64,16 @@ public class GameController implements KeyListener {
                     arcanoid.setGameDifficultyLevel(GameDifficultyLevel.nextGameDifficultyLevel(arcanoid.getGameDifficultyLevel()));
                     arcanoid.restart();
                 }
+                break;
             }
             case KeyEvent.VK_N:
                 if (arcanoid.isWon() && arcanoid.getGameLevel() != GameLevel.FINAL) {
                     arcanoid.setGameLevel(GameLevel.nextGameLevel(arcanoid.getGameLevel()));
                 }
-
                 break;
-            default:
+
+            case KeyEvent.VK_M:
+                arcanoid.getView().getMenu().doClick(1);
                 break;
         }
     }

@@ -86,23 +86,23 @@ public class Ball extends AbstractGameElement implements Pausable {
         switch (this.difficultyLevel) {
             case LIGHT:
                 this.setColor(Color.MAGENTA);
-                this.setBallVelocity(1.4);
+                this.setBallVelocity(1.5);
                 break;
             case MEDIUM:
                 this.setColor(Color.GREEN);
-                this.setBallVelocity(1.60);
+                this.setBallVelocity(1.7);
                 break;
             case HARD:
                 this.setColor(Color.RED);
-                this.setBallVelocity(1.80);
+                this.setBallVelocity(1.9);
                 break;
             case VERY_HARD:
                 this.setColor(Color.PINK);
-                this.setBallVelocity(2.0);
+                this.setBallVelocity(2.09);
                 break;
             case YOU_ARE_GOD:
                 this.setColor(Color.GRAY);
-                this.setBallVelocity(2.19);
+                this.setBallVelocity(2.2);
                 break;
         }
     }
