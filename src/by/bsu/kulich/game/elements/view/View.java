@@ -1,7 +1,6 @@
 package by.bsu.kulich.game.elements.view;
 
 import by.bsu.kulich.game.Arcanoid;
-import by.bsu.kulich.game.elements.controller.StartGameController;
 import by.bsu.kulich.game.elements.entity.Ball;
 import by.bsu.kulich.game.elements.entity.Block;
 import by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
@@ -27,15 +26,14 @@ public class View {
     private boolean win;
     private boolean gameOver;
 
+    private JMenuBar menuBar;
+
     @Getter
     @Setter
     private boolean menuShowing = false;
 
     @Getter
     private String text = "";
-
-    @Getter
-    private JPanel mainMenu;
 
     @Setter
     @Getter
@@ -73,7 +71,28 @@ public class View {
         font = new Font(FONT, Font.PLAIN, 12);
         this.arcanoid = arcanoid;
         this.amountOfBlocks = arcanoid.getAmountOfBlocks();
-        gameField = new GameField(arcanoid.getWidth(), arcanoid.getHeight(), arcanoid);
+
+        arcanoid.setLayout(new BorderLayout());
+        JPanel canvasPanel = new JPanel(new BorderLayout());
+
+        gameField = new GameField(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT());
+        arcanoid.setVisible(true);
+        createMenu();
+
+        canvasPanel.add(gameField);
+        canvasPanel.setPreferredSize(new Dimension(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT()));
+        canvasPanel.setSize(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT());
+
+        arcanoid.add(canvasPanel, BorderLayout.CENTER);
+        gameField.initBufferStrategy();
+
+        arcanoid.setPreferredSize(new Dimension(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT()));
+        arcanoid.setSize(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT());
+
+        arcanoid.setResizable(false);
+        arcanoid.setLocationRelativeTo(null);
+
+
     }
 
     private boolean checkWin() {
@@ -100,11 +119,11 @@ public class View {
         }
     }
 
-    public void updateScoreboard() {
+    void updateScoreboard() {
         text = "View: " + score + "  Lives: " + lives;
     }
 
-    public void draw(Graphics g) {
+    void draw(Graphics g) {
         font = font.deriveFont(34f);
         FontMetrics fontMetrics = g.getFontMetrics(font);
         g.setColor(Color.WHITE);
@@ -116,45 +135,25 @@ public class View {
     }
 
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
-        gameField.drawScene(ball, blocks, paddle);
+        gameField.drawScene(ball, blocks, paddle, this);
     }
 
-    public void createMenu() {
-        mainMenu = new JPanel();
+    void createMenu() {
+        menuBar = new JMenuBar();
 
-        mainMenu.setPreferredSize(new Dimension(arcanoid.getWidth(), arcanoid.getHeight()));
+        JMenu menu = new JMenu("Меню");
+        JMenuItem newGame = new JMenuItem("");
+        JMenuItem changeDifficulty = new JMenuItem("");
+        JMenuItem about = new JMenuItem("");
 
-        mainMenu.setLayout(new GridLayout(3, 1, 0, 20));
+        menu.add(newGame);
+        menu.add(changeDifficulty);
+        menu.addSeparator();
+        menu.add(about);
 
-        JButton start = new JButton("Начать игру");
-        JButton difficultyAndLevel = new JButton("Выбрать уровень сложности...");
-        JButton titres = new JButton("О программе");
+        menuBar.add(menu);
 
-        mainMenu.add(start);
-        mainMenu.add(difficultyAndLevel);
-        mainMenu.add(titres);
-
-        StartGameController controller = new StartGameController(start, this);
-
+        arcanoid.setJMenuBar(menuBar);
     }
 
-    public void showMenu() {
-        if (!menuShowing) {
-            arcanoid.setLayout(new BorderLayout());
-            arcanoid.add(mainMenu, BorderLayout.CENTER);
-            mainMenu.setVisible(true);
-            arcanoid.pack();
-            menuShowing = true;
-        }
-    }
-
-    public void closeMenu() {
-        arcanoid.remove(mainMenu);
-        //arcanoid.setLayout(null);
-        arcanoid.revalidate();
-        //arcanoid.repaint();
-        mainMenu.setVisible(false);
-        menuShowing = false;
-        arcanoid.setMenuOpened(false);
-    }
 }

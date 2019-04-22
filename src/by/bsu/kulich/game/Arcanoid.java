@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +15,25 @@ import static by.bsu.kulich.game.elements.entity.Block.BLOCK_HEIGHT;
 import static by.bsu.kulich.game.elements.entity.Block.BLOCK_WIDTH;
 
 public class Arcanoid extends JFrame {
+
+    @Getter
     private final static int WINDOW_WIDTH = 800;
+
+    @Getter
     private final static int WINDOW_HEIGHT = 700;
 
     private final double REAL_LEFT_WINDOW_BOUND = 7.0;
     private final double REAL_RIGHT_WINDOW_BOUND = WINDOW_WIDTH - 8.0;
     private final double REAL_TOP_WINDOW_BOUND = 32.0;
-    private final double REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 8.0;
+    private final double REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 30.0;
 
     @Getter
-    private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT - 25.0, REAL_LEFT_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
+    private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 25.0, REAL_LEFT_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
     @Getter
-    private Ball ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 45,
+    private Ball ball = new Ball(WINDOW_WIDTH / 2, (int) REAL_BOTTOM_WINDOW_BOUND - 45,
             REAL_LEFT_WINDOW_BOUND, REAL_TOP_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, REAL_BOTTOM_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
     private List<Block> blocks = new ArrayList<>();
-    private View view = new View(GameDifficultyLevel.MEDIUM, this);
+    private View view;
     private PaddleController controller;
 
     @Getter
@@ -41,24 +44,10 @@ public class Arcanoid extends JFrame {
     @Getter
     private boolean running;
 
-    @Getter
-    @Setter
-    private boolean menuOpened;
-
     private Arcanoid() {
         super("KABAYE INC. ARCANOID®");
 
-        view.createMenu();
-
-        this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-
-        this.setVisible(true);
-
-        this.createBufferStrategy(2);
+        view = new View(GameDifficultyLevel.MEDIUM, this);
 
         this.controller = new PaddleController(this);
 
@@ -177,14 +166,11 @@ public class Arcanoid extends JFrame {
 
     private void run() {
         running = true;
-        menuOpened = false;
         while (running) {
-            if (menuOpened) {
-                view.showMenu();
-            } else {
-                update();
+
+            update();
                 view.drawScene(ball, blocks, paddle);
-            }
+
         }
 
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));

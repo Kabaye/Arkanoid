@@ -18,6 +18,6 @@ public class StartGameController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        view.closeMenu();
+        // view.closeMenu();
     }
 }
