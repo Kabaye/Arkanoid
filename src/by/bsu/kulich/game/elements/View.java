@@ -1,12 +1,14 @@
 package by.bsu.kulich.game.elements;
 
+import by.bsu.kulich.game.Arcanoid;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class Score {
+public class View extends JPanel {
     private final static String FONT = "Arial";
     private final static int WINDOW_WIDTH = 800;
 
@@ -22,13 +24,22 @@ public class Score {
     @Getter
     private String text = "";
 
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem about;
+    private JMenuItem startNew;
+    private JMenuItem difficultyAndLevel;
+
     @Setter
     @Getter
     private GameDifficultyLevel difficultyLevel;
 
     private Font font;
 
-    public Score(@NonNull GameDifficultyLevel difficultyLevel, int amountOfBlocks) {
+    private Arcanoid arcanoid;
+
+    public View(@NonNull GameDifficultyLevel difficultyLevel, Arcanoid arcanoid) {
+        super();
         this.difficultyLevel = difficultyLevel;
         switch (this.difficultyLevel) {
             case LIGHT:
@@ -51,7 +62,11 @@ public class Score {
         win = false;
         gameOver = false;
         font = new Font(FONT, Font.PLAIN, 12);
-        this.amountOfBlocks = amountOfBlocks;
+        this.arcanoid = arcanoid;
+        this.amountOfBlocks = arcanoid.getAmountOfBlocks();
+        this.setSize(arcanoid.getWidth(), arcanoid.getHeight());
+        //this.setDoubleBuffered(true);
+        //arcanoid.add(this);
     }
 
     private boolean checkWin() {
@@ -79,7 +94,7 @@ public class Score {
     }
 
     public void updateScoreboard() {
-        text = "Score: " + score + "  Lives: " + lives;
+        text = "View: " + score + "  Lives: " + lives;
     }
 
     public void draw(Graphics g) {
@@ -91,5 +106,28 @@ public class Score {
         int titleHeight = fontMetrics.getHeight();
         g.drawString(text, (WINDOW_WIDTH / 2) - (titleLen / 2),
                 titleHeight + 5);
+    }
+
+    public void menu() {
+
+        menuBar = new JMenuBar();
+
+        menu = new JMenu("Меню");
+
+        startNew = new JMenuItem("Начать заново");
+        about = new JMenuItem("О программе...");
+        difficultyAndLevel = new JMenuItem("Выбрать сложность...");
+
+        menu.add(startNew);
+        menu.addSeparator();
+
+        menu.add(difficultyAndLevel);
+        menu.addSeparator();
+
+        menu.add(about);
+
+        menuBar.add(menu);
+
+        arcanoid.setJMenuBar(menuBar);
     }
 }
