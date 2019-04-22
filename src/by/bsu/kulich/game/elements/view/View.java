@@ -1,16 +1,22 @@
-package by.bsu.kulich.game.elements;
+package by.bsu.kulich.game.elements.view;
 
 import by.bsu.kulich.game.Arcanoid;
+import by.bsu.kulich.game.elements.controller.StartGameController;
+import by.bsu.kulich.game.elements.entity.Ball;
+import by.bsu.kulich.game.elements.entity.Block;
+import by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
+import by.bsu.kulich.game.elements.entity.Paddle;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
-public class View extends JPanel {
+
+public class View {
     private final static String FONT = "Arial";
-    private final static int WINDOW_WIDTH = 800;
 
     private int score;
     private int lives;
@@ -22,13 +28,14 @@ public class View extends JPanel {
     private boolean gameOver;
 
     @Getter
+    @Setter
+    private boolean menuShowing = false;
+
+    @Getter
     private String text = "";
 
-    private JMenuBar menuBar;
-    private JMenu menu;
-    private JMenuItem about;
-    private JMenuItem startNew;
-    private JMenuItem difficultyAndLevel;
+    @Getter
+    private JPanel mainMenu;
 
     @Setter
     @Getter
@@ -36,10 +43,12 @@ public class View extends JPanel {
 
     private Font font;
 
+    @Getter
     private Arcanoid arcanoid;
 
+    private GameField gameField;
+
     public View(@NonNull GameDifficultyLevel difficultyLevel, Arcanoid arcanoid) {
-        super();
         this.difficultyLevel = difficultyLevel;
         switch (this.difficultyLevel) {
             case LIGHT:
@@ -64,9 +73,7 @@ public class View extends JPanel {
         font = new Font(FONT, Font.PLAIN, 12);
         this.arcanoid = arcanoid;
         this.amountOfBlocks = arcanoid.getAmountOfBlocks();
-        this.setSize(arcanoid.getWidth(), arcanoid.getHeight());
-        //this.setDoubleBuffered(true);
-        //arcanoid.add(this);
+        gameField = new GameField(arcanoid.getWidth(), arcanoid.getHeight(), arcanoid);
     }
 
     private boolean checkWin() {
@@ -104,30 +111,50 @@ public class View extends JPanel {
         g.setFont(font);
         int titleLen = fontMetrics.stringWidth(text);
         int titleHeight = fontMetrics.getHeight();
-        g.drawString(text, (WINDOW_WIDTH / 2) - (titleLen / 2),
+        g.drawString(text, (arcanoid.getWidth() / 2) - (titleLen / 2),
                 titleHeight + 5);
     }
 
-    public void menu() {
+    public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
+        gameField.drawScene(ball, blocks, paddle);
+    }
 
-        menuBar = new JMenuBar();
+    public void createMenu() {
+        mainMenu = new JPanel();
 
-        menu = new JMenu("Меню");
+        mainMenu.setPreferredSize(new Dimension(arcanoid.getWidth(), arcanoid.getHeight()));
 
-        startNew = new JMenuItem("Начать заново");
-        about = new JMenuItem("О программе...");
-        difficultyAndLevel = new JMenuItem("Выбрать сложность...");
+        mainMenu.setLayout(new GridLayout(3, 1, 0, 20));
 
-        menu.add(startNew);
-        menu.addSeparator();
+        JButton start = new JButton("Начать игру");
+        JButton difficultyAndLevel = new JButton("Выбрать уровень сложности...");
+        JButton titres = new JButton("О программе");
 
-        menu.add(difficultyAndLevel);
-        menu.addSeparator();
+        mainMenu.add(start);
+        mainMenu.add(difficultyAndLevel);
+        mainMenu.add(titres);
 
-        menu.add(about);
+        StartGameController controller = new StartGameController(start, this);
 
-        menuBar.add(menu);
+    }
 
-        arcanoid.setJMenuBar(menuBar);
+    public void showMenu() {
+        if (!menuShowing) {
+            arcanoid.setLayout(new BorderLayout());
+            arcanoid.add(mainMenu, BorderLayout.CENTER);
+            mainMenu.setVisible(true);
+            arcanoid.pack();
+            menuShowing = true;
+        }
+    }
+
+    public void closeMenu() {
+        arcanoid.remove(mainMenu);
+        //arcanoid.setLayout(null);
+        arcanoid.revalidate();
+        //arcanoid.repaint();
+        mainMenu.setVisible(false);
+        menuShowing = false;
+        arcanoid.setMenuOpened(false);
     }
 }

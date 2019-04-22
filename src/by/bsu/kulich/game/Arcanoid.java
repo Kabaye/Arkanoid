@@ -1,19 +1,19 @@
 package by.bsu.kulich.game;
 
-import by.bsu.kulich.game.elements.*;
-import by.bsu.kulich.game.keyboard.PaddleController;
+import by.bsu.kulich.game.elements.controller.PaddleController;
+import by.bsu.kulich.game.elements.entity.*;
+import by.bsu.kulich.game.elements.view.View;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.bsu.kulich.game.elements.Block.BLOCK_HEIGHT;
-import static by.bsu.kulich.game.elements.Block.BLOCK_WIDTH;
+import static by.bsu.kulich.game.elements.entity.Block.BLOCK_HEIGHT;
+import static by.bsu.kulich.game.elements.entity.Block.BLOCK_WIDTH;
 
 public class Arcanoid extends JFrame {
     private final static int WINDOW_WIDTH = 800;
@@ -41,20 +41,22 @@ public class Arcanoid extends JFrame {
     @Getter
     private boolean running;
 
+    @Getter
+    @Setter
+    private boolean menuOpened;
+
     private Arcanoid() {
         super("KABAYE INC. ARCANOID®");
 
-        //this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        view.createMenu();
+
+        this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.view.menu();
 
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
         this.setVisible(true);
-
-//        pack();
-
 
         this.createBufferStrategy(2);
 
@@ -80,42 +82,6 @@ public class Arcanoid extends JFrame {
                         (iY + 2) * (BLOCK_HEIGHT + 3) + 20, GameLevel.BEGINNING));
             }
         }
-    }
-
-    private void drawScene(Ball ball, List<Block> blocks/*, ScoreBoard scoreboard*/) {
-        BufferStrategy bf = this.getBufferStrategy();
-        Graphics g = null;
-        try {
-            g = bf.getDrawGraphics();
-
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
-
-            if (ball.isDied())
-                ball.drawIfDied(g, paddle);
-            else
-                ball.draw(g);
-            paddle.draw(g);
-            for (Block block : blocks) {
-                block.draw(g);
-            }
-
-            /*
-            // real size of our window
-
-            g.setColor(Color.RED);
-            g.drawRect((int)REAL_LEFT_WINDOW_BOUND,(int)REAL_TOP_WINDOW_BOUND,5,5);
-            g.drawRect((int) REAL_RIGHT_WINDOW_BOUND-5, (int)REAL_BOTTOM_WINDOW_BOUND-5,5,5);*/
-
-            view.draw(g);
-
-        } finally {
-            g.dispose();
-        }
-
-        bf.show();
-        Toolkit.getDefaultToolkit().sync();
-
     }
 
     private boolean isIntersecting(AbstractGameElement gameElement1, AbstractGameElement gameElement2) {
@@ -211,11 +177,14 @@ public class Arcanoid extends JFrame {
 
     private void run() {
         running = true;
-
+        menuOpened = false;
         while (running) {
-            update();
-            drawScene(ball, blocks);
-            paddle.update();
+            if (menuOpened) {
+                view.showMenu();
+            } else {
+                update();
+                view.drawScene(ball, blocks, paddle);
+            }
         }
 
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
