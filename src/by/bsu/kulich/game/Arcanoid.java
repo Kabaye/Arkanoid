@@ -27,7 +27,7 @@ public class Arcanoid extends JFrame implements Pausable {
     @Getter
     private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, gameDifficultyLevel);
     @Getter
-    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 40, gameDifficultyLevel);
+    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 35, gameDifficultyLevel);
     private List<Block> blocks = new ArrayList<>();
     private GameLevelCreator gameLevelCreator = new GameLevelCreator(gameLevel);
 
@@ -37,7 +37,7 @@ public class Arcanoid extends JFrame implements Pausable {
 
     @Getter
     @Setter
-    private int amountOfBlocks = 1;
+    private int amountOfBlocks;
 
     @Setter
     @Getter
@@ -70,7 +70,8 @@ public class Arcanoid extends JFrame implements Pausable {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         score = 0;
-        lives = 2;
+        amountOfBlocks = gameLevelCreator.getBlockAmount();
+        setLives();
 
         gameLevelCreator.createNewMap(blocks);
     }
@@ -105,11 +106,10 @@ public class Arcanoid extends JFrame implements Pausable {
             double pW = paddle.getSizeX();
 
             if ((Math.abs(bX - pX) <= pW / 2.0) && ((bY - pY) <= -pH / 2.0)) {
+                //System.out.println(Math.abs(ball.getVelocityY()));
                 ball.setVelocityY(-ball.getVelocityY());
-                if (ball.getX() > paddle.getX())
-                    ball.setVelocityX(ball.getBallVelocity() * (ball.getX() - paddle.getX()) / (paddle.getSizeX() / 2.0));
-                else if (ball.getX() < paddle.getX())
-                    ball.setVelocityX(ball.getBallVelocity() * (ball.getX() - paddle.getX()) / (paddle.getSizeX() / 2.0));
+                System.out.println(ball.getBallVelocity() * (bX - pX) / (pW / 2.0));
+                ball.setVelocityX(ball.getBallVelocity() * (bX - pX) / (pW / 2.0));
             } else {
                 die();
             }
@@ -216,14 +216,34 @@ public class Arcanoid extends JFrame implements Pausable {
         paddle.setGameDifficultyLevel(this.getGameDifficultyLevel());
         gameLevelCreator.setGameLevel(this.getGameLevel());
         ball.die();
-        lives = 2;
+        setLives();
+        this.continueGame();
         won = false;
         loosed = false;
         score = 0;
         view.updateScore();
-//        amountOfBlocks = gameLevelCreator.getBlockAmount();
-        amountOfBlocks = 1/*gameLevelCreator.getBlockAmount()*/;
+        amountOfBlocks = gameLevelCreator.getBlockAmount();
         gameLevelCreator.createNewMap(blocks);
+    }
+
+    private void setLives() {
+        switch (gameDifficultyLevel) {
+            case LIGHT:
+                lives = 7;
+                break;
+            case MEDIUM:
+                lives = 5;
+                break;
+            case HARD:
+                lives = 3;
+                break;
+            case VERY_HARD:
+                lives = 2;
+                break;
+            case YOU_ARE_GOD:
+                lives = 1;
+                break;
+        }
     }
 
     @Override

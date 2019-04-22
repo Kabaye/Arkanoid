@@ -12,7 +12,7 @@ import static by.bsu.kulich.game.elements.view.View.*;
 
 @Getter
 public class Ball extends AbstractGameElement implements Pausable {
-    private static final double BALL_RADIUS = 10.0;
+    public static final double BALL_RADIUS = 7.0;
     private static final double BALL_SIMPLE_STEP = 0.8;
 
     private double x, y;
@@ -42,8 +42,8 @@ public class Ball extends AbstractGameElement implements Pausable {
     public void start() {
         pause = false;
         died = false;
-        this.velocityX = this.ballVelocity;
-        this.velocityY = this.ballVelocity;
+        this.velocityX = 0;
+        this.velocityY = -this.ballVelocity;
     }
 
     @Override
@@ -86,23 +86,23 @@ public class Ball extends AbstractGameElement implements Pausable {
         switch (this.difficultyLevel) {
             case LIGHT:
                 this.setColor(Color.MAGENTA);
-                this.setBallVelocity(3.0);
+                this.setBallVelocity(1.4);
                 break;
             case MEDIUM:
                 this.setColor(Color.GREEN);
-                this.setBallVelocity(3.0);
+                this.setBallVelocity(1.60);
                 break;
             case HARD:
                 this.setColor(Color.RED);
-                this.setBallVelocity(3.0);
+                this.setBallVelocity(1.80);
                 break;
             case VERY_HARD:
                 this.setColor(Color.PINK);
-                this.setBallVelocity(3.0);
+                this.setBallVelocity(2.0);
                 break;
             case YOU_ARE_GOD:
                 this.setColor(Color.GRAY);
-                this.setBallVelocity(3.0);
+                this.setBallVelocity(2.19);
                 break;
         }
     }
