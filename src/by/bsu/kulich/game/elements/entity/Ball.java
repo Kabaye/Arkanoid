@@ -35,28 +35,7 @@ public class Ball extends AbstractGameElement implements Pausable {
         this.x = x;
         this.y = y;
         this.difficultyLevel = difficultyLevel;
-        switch (this.difficultyLevel) {
-            case LIGHT:
-                this.setColor(Color.MAGENTA);
-                this.setBallVelocity(0.45);
-                break;
-            case MEDIUM:
-                this.setColor(Color.GREEN);
-                this.setBallVelocity(2.0);
-                break;
-            case HARD:
-                this.setColor(Color.RED);
-                this.setBallVelocity(0.54);
-                break;
-            case VERY_HARD:
-                this.setColor(Color.PINK);
-                this.setBallVelocity(0.6);
-                break;
-            case YOU_ARE_GOD:
-                this.setColor(Color.GRAY);
-                this.setBallVelocity(3.0);
-                break;
-        }
+        this.setGameDifficultyLevel(difficultyLevel);
     }
 
     @Override
@@ -99,6 +78,32 @@ public class Ball extends AbstractGameElement implements Pausable {
         } else if (died && !pause) {
             x = paddle.getX();
             y = paddle.getY() - 2 * radius;
+        }
+    }
+
+    public void setGameDifficultyLevel(GameDifficultyLevel level) {
+        this.difficultyLevel = level;
+        switch (this.difficultyLevel) {
+            case LIGHT:
+                this.setColor(Color.MAGENTA);
+                this.setBallVelocity(0.45);
+                break;
+            case MEDIUM:
+                this.setColor(Color.GREEN);
+                this.setBallVelocity(2.0);
+                break;
+            case HARD:
+                this.setColor(Color.RED);
+                this.setBallVelocity(0.54);
+                break;
+            case VERY_HARD:
+                this.setColor(Color.PINK);
+                this.setBallVelocity(0.6);
+                break;
+            case YOU_ARE_GOD:
+                this.setColor(Color.GRAY);
+                this.setBallVelocity(3.0);
+                break;
         }
     }
 

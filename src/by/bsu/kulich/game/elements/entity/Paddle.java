@@ -1,8 +1,8 @@
 package by.bsu.kulich.game.elements.entity;
 
 import by.bsu.kulich.game.elements.Pausable;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import static by.bsu.kulich.game.elements.view.View.REAL_LEFT_WINDOW_BOUND;
 import static by.bsu.kulich.game.elements.view.View.REAL_RIGHT_WINDOW_BOUND;
@@ -16,7 +16,7 @@ public class Paddle extends Rectangle implements Pausable {
     private double velocityValue = 0.45;
     private double velocity = 0.0;
 
-    @Setter
+    @Getter
     private GameDifficultyLevel gameDifficultyLevel;
 
     private int direction;
@@ -25,6 +25,22 @@ public class Paddle extends Rectangle implements Pausable {
     public Paddle(double x, double y, @NonNull GameDifficultyLevel difficultyLevel) {
         super(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
         this.gameDifficultyLevel = difficultyLevel;
+        this.setGameDifficultyLevel(difficultyLevel);
+        start();
+    }
+
+    public void update() {
+        if (!pause) {
+            if (left() < REAL_LEFT_WINDOW_BOUND && velocity < 0.0)
+                velocity = 0.0;
+            if (right() > REAL_RIGHT_WINDOW_BOUND && velocity > 0.0)
+                velocity = 0.0;
+            this.setX(this.getX() + velocity * PADDLE_SIMPLE_STEP);
+        }
+    }
+
+    public void setGameDifficultyLevel(GameDifficultyLevel gameDifficultyLevel) {
+        this.gameDifficultyLevel = gameDifficultyLevel;
         switch (this.gameDifficultyLevel) {
             case LIGHT:
                 this.setSizeX(PADDLE_WIDTH);
@@ -45,20 +61,7 @@ public class Paddle extends Rectangle implements Pausable {
                 this.velocityValue = 0.5;
                 break;
         }
-
-        start();
     }
-
-    public void update() {
-        if (!pause) {
-            if (left() < REAL_LEFT_WINDOW_BOUND && velocity < 0.0)
-                velocity = 0.0;
-            if (right() > REAL_RIGHT_WINDOW_BOUND && velocity > 0.0)
-                velocity = 0.0;
-            this.setX(this.getX() + velocity * PADDLE_SIMPLE_STEP);
-        }
-    }
-
 
     public void stopMove() {
         this.velocity = 0.0;

@@ -103,30 +103,34 @@ class GameFieldCanvas extends Canvas {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    void drawWonScene(GameDifficultyLevel level, View view) {
+    void drawWonScene(GameDifficultyLevel level, String text) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
         try {
             g = bf.getDrawGraphics();
-            font = font.deriveFont(15f);
+            font = font.deriveFont(24f);
             FontMetrics fontMetrics = g.getFontMetrics(font);
             g.setColor(Color.BLUE);
             g.setFont(font);
+            int firstPart = text.indexOf('\n');
+
+            int titleLen = fontMetrics.stringWidth(text.substring(0, firstPart));
+            int titleLen1 = fontMetrics.stringWidth(text.substring(firstPart));
+            int titleHeight = fontMetrics.getHeight();
 
             if (level == GameDifficultyLevel.YOU_ARE_GOD) {
                 g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
-                int titleLen = fontMetrics.stringWidth(view.getText().substring(0, 61));
-                int titleHeight = fontMetrics.getHeight();
-                g.drawString(view.getText().substring(0, 61), (WINDOW_WIDTH / 2) - (titleLen / 2),
+
+
+                g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
                         titleHeight + 5);
             } else {
+
                 g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
-
-
-                int titleLen = fontMetrics.stringWidth(view.getText());
-                int titleHeight = fontMetrics.getHeight();
-                g.drawString(view.getText(), (WINDOW_WIDTH / 2) - (titleLen / 2),
+                g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
                         titleHeight + 5);
+                g.drawString(text.substring(firstPart), (WINDOW_WIDTH / 2) - (titleLen1 / 2),
+                        2 * titleHeight + 5);
             }
         } finally {
             g.dispose();
@@ -136,13 +140,25 @@ class GameFieldCanvas extends Canvas {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    void drawLoosedScene(View view) {
+    void drawLoosedScene(String text) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
         try {
             g = bf.getDrawGraphics();
 
             g.drawImage(LEVEL_LOOSED_IMAGE.getImage(), 0, 0, null);
+
+            g = bf.getDrawGraphics();
+            font = font.deriveFont(25f);
+            FontMetrics fontMetrics = g.getFontMetrics(font);
+            g.setColor(Color.RED);
+            g.setFont(font);
+
+            int titleLen = fontMetrics.stringWidth(text);
+            int titleHeight = fontMetrics.getHeight();
+            g.drawString(text, (WINDOW_WIDTH / 2) - (titleLen / 2),
+                    titleHeight + 5);
+
         } finally {
             g.dispose();
         }

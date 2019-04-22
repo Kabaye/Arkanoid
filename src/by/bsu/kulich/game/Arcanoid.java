@@ -19,20 +19,21 @@ import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 
 public class Arcanoid extends JFrame implements Pausable {
 
+    @Setter
     @Getter
     private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.MEDIUM;
 
     @Getter
     private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, gameDifficultyLevel);
     @Getter
-    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 45, gameDifficultyLevel);
+    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 40, gameDifficultyLevel);
     private List<Block> blocks = new ArrayList<>();
     private View view;
     private GameController gameController;
 
     @Getter
     @Setter
-    private int amountOfBlocks = 55;
+    private int amountOfBlocks = 1;
 
     @Setter
     @Getter
@@ -63,7 +64,7 @@ public class Arcanoid extends JFrame implements Pausable {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         score = 0;
-        lives = 5;
+        lives = 2;
 
         initializeBricks();
     }
@@ -177,6 +178,7 @@ public class Arcanoid extends JFrame implements Pausable {
     private void update() {
         ball.update(this, paddle);
         paddle.update();
+        view.updateScore();
 
         testCollision(paddle, ball);
 
@@ -204,7 +206,15 @@ public class Arcanoid extends JFrame implements Pausable {
     }
 
     public void repeat() {
-
+        ball.setGameDifficultyLevel(this.getGameDifficultyLevel());
+        paddle.setGameDifficultyLevel(this.getGameDifficultyLevel());
+        ball.die();
+        lives = 2;
+        won = false;
+        loosed = false;
+        score = 0;
+        view.updateScore();
+        initializeBricks();
     }
 
     @Override
