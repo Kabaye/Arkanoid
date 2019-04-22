@@ -1,5 +1,6 @@
-package by.bsu.kulich.game.elements;
+package by.bsu.kulich.game.elements.entity;
 
+import by.bsu.kulich.game.elements.Pausable;
 import lombok.NonNull;
 import lombok.Setter;
 

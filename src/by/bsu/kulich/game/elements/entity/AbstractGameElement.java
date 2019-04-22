@@ -1,4 +1,4 @@
-package by.bsu.kulich.game.elements;
+package by.bsu.kulich.game.elements.entity;
 
 import java.awt.*;
 

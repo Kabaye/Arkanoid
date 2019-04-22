@@ -1,4 +1,4 @@
-package by.bsu.kulich.game.keyboard;
+package by.bsu.kulich.game.elements.controller;
 
 import by.bsu.kulich.game.Arcanoid;
 import lombok.Getter;
