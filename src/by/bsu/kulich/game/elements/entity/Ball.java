@@ -8,15 +8,12 @@ import lombok.Setter;
 
 import java.awt.*;
 
+import static by.bsu.kulich.game.elements.view.View.*;
+
 @Getter
 public class Ball extends AbstractGameElement implements Pausable {
     private static final double BALL_RADIUS = 10.0;
     private static final double BALL_SIMPLE_STEP = 0.8;
-
-    private final double REAL_LEFT_WINDOW_BOUND;
-    private final double REAL_RIGHT_WINDOW_BOUND;
-    private final double REAL_TOP_WINDOW_BOUND;
-    private final double REAL_BOTTOM_WINDOW_BOUND;
 
     private double x, y;
     private double radius = BALL_RADIUS;
@@ -34,34 +31,30 @@ public class Ball extends AbstractGameElement implements Pausable {
     @Getter
     private boolean died = true;
 
-    public Ball(int x, int y, double realLeftWindowBound, double realTopWindowBound, double realRightWindowBound, double realBottomWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
+    public Ball(int x, int y, @NonNull GameDifficultyLevel difficultyLevel) {
         this.x = x;
         this.y = y;
         this.difficultyLevel = difficultyLevel;
-        REAL_LEFT_WINDOW_BOUND = realLeftWindowBound;
-        REAL_TOP_WINDOW_BOUND = realTopWindowBound;
-        REAL_RIGHT_WINDOW_BOUND = realRightWindowBound;
-        REAL_BOTTOM_WINDOW_BOUND = realBottomWindowBound;
         switch (this.difficultyLevel) {
             case LIGHT:
                 this.setColor(Color.MAGENTA);
-                this.setBallVelocity(0.3);
+                this.setBallVelocity(0.45);
                 break;
             case MEDIUM:
                 this.setColor(Color.GREEN);
-                this.setBallVelocity(0.6);
+                this.setBallVelocity(0.49);
                 break;
             case HARD:
                 this.setColor(Color.RED);
-                this.setBallVelocity(0.35);
+                this.setBallVelocity(0.54);
                 break;
             case VERY_HARD:
                 this.setColor(Color.PINK);
-                this.setBallVelocity(0.38);
+                this.setBallVelocity(0.6);
                 break;
             case YOU_ARE_GOD:
                 this.setColor(Color.GRAY);
-                this.setBallVelocity(0.41);
+                this.setBallVelocity(0.666);
                 break;
         }
     }

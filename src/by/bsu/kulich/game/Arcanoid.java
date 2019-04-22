@@ -13,25 +13,14 @@ import java.util.List;
 
 import static by.bsu.kulich.game.elements.entity.Block.BLOCK_HEIGHT;
 import static by.bsu.kulich.game.elements.entity.Block.BLOCK_WIDTH;
+import static by.bsu.kulich.game.elements.view.View.*;
 
 public class Arcanoid extends JFrame {
 
     @Getter
-    private final static int WINDOW_WIDTH = 800;
-
+    private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, REAL_LEFT_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
     @Getter
-    private final static int WINDOW_HEIGHT = 700;
-
-    private final double REAL_LEFT_WINDOW_BOUND = 7.0;
-    private final double REAL_RIGHT_WINDOW_BOUND = WINDOW_WIDTH - 8.0;
-    private final double REAL_TOP_WINDOW_BOUND = 32.0;
-    private final double REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 30.0;
-
-    @Getter
-    private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 25.0, REAL_LEFT_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
-    @Getter
-    private Ball ball = new Ball(WINDOW_WIDTH / 2, (int) REAL_BOTTOM_WINDOW_BOUND - 45,
-            REAL_LEFT_WINDOW_BOUND, REAL_TOP_WINDOW_BOUND, REAL_RIGHT_WINDOW_BOUND, REAL_BOTTOM_WINDOW_BOUND, GameDifficultyLevel.MEDIUM);
+    private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 45, GameDifficultyLevel.MEDIUM);
     private List<Block> blocks = new ArrayList<>();
     private View view;
     private PaddleController controller;
@@ -169,7 +158,7 @@ public class Arcanoid extends JFrame {
         while (running) {
 
             update();
-                view.drawScene(ball, blocks, paddle);
+            view.drawScene(ball, blocks, paddle);
 
         }
 

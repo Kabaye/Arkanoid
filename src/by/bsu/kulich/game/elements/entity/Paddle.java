@@ -9,13 +9,11 @@ import java.awt.*;
 public class Paddle extends Rectangle implements Pausable {
 
     private static final double PADDLE_WIDTH = 110.0;
-    private static final double PADDLE_HEIGHT = 17.0;
-    private static final double PADDLE_SIMPLE_STEP = 0.8;
-    private final double REAL_LEFT_WINDOW_BOUND;
-    private final double REAL_RIGHT_WINDOW_BOUND;
+    private static final double PADDLE_HEIGHT = 15.0;
+    private static final double PADDLE_SIMPLE_STEP = 1.0;
+    private final int REAL_LEFT_WINDOW_BOUND;
+    private final int REAL_RIGHT_WINDOW_BOUND;
 
-
-    @Setter
     private double velocityValue = 0.45;
     private double velocity = 0.0;
 
@@ -25,7 +23,7 @@ public class Paddle extends Rectangle implements Pausable {
     private int direction;
     private boolean pause;
 
-    public Paddle(double x, double y, double realLeftWindowBound, double realRightWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
+    public Paddle(double x, double y, int realLeftWindowBound, int realRightWindowBound, @NonNull GameDifficultyLevel difficultyLevel) {
         super(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
         this.gameDifficultyLevel = difficultyLevel;
         switch (this.gameDifficultyLevel) {
@@ -37,15 +35,15 @@ public class Paddle extends Rectangle implements Pausable {
                 break;
             case HARD:
                 this.setSizeX(PADDLE_WIDTH - 30.0);
-                this.setVelocityValue(0.42);
+                this.velocityValue = 0.7;
                 break;
             case VERY_HARD:
                 this.setSizeX(PADDLE_WIDTH - 45.0);
-                this.setVelocityValue(0.38);
+                this.velocityValue = 0.6;
                 break;
             case YOU_ARE_GOD:
                 this.setSizeX(PADDLE_WIDTH - 60.0);
-                this.setVelocityValue(0.33);
+                this.velocityValue = 0.5;
                 break;
         }
         REAL_LEFT_WINDOW_BOUND = realLeftWindowBound;

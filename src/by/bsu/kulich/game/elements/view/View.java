@@ -17,6 +17,14 @@ import java.util.List;
 public class View {
     private final static String FONT = "Arial";
 
+    public final static int WINDOW_WIDTH = 800;
+    public final static int WINDOW_HEIGHT = 700;
+
+    public final static int REAL_LEFT_WINDOW_BOUND = 0;
+    public final static int REAL_RIGHT_WINDOW_BOUND = WINDOW_WIDTH - 15;
+    public final static int REAL_TOP_WINDOW_BOUND = 1;
+    public final static int REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 61;
+
     private int score;
     private int lives;
 
@@ -27,10 +35,6 @@ public class View {
     private boolean gameOver;
 
     private JMenuBar menuBar;
-
-    @Getter
-    @Setter
-    private boolean menuShowing = false;
 
     @Getter
     private String text = "";
@@ -44,7 +48,7 @@ public class View {
     @Getter
     private Arcanoid arcanoid;
 
-    private GameField gameField;
+    private GameFieldCanvas gameFieldCanvas;
 
     public View(@NonNull GameDifficultyLevel difficultyLevel, Arcanoid arcanoid) {
         this.difficultyLevel = difficultyLevel;
@@ -75,24 +79,22 @@ public class View {
         arcanoid.setLayout(new BorderLayout());
         JPanel canvasPanel = new JPanel(new BorderLayout());
 
-        gameField = new GameField(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT());
+        gameFieldCanvas = new GameFieldCanvas();
         arcanoid.setVisible(true);
         createMenu();
 
-        canvasPanel.add(gameField);
-        canvasPanel.setPreferredSize(new Dimension(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT()));
-        canvasPanel.setSize(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT());
+        canvasPanel.add(gameFieldCanvas);
+        canvasPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        canvasPanel.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         arcanoid.add(canvasPanel, BorderLayout.CENTER);
-        gameField.initBufferStrategy();
+        gameFieldCanvas.initBufferStrategy();
 
-        arcanoid.setPreferredSize(new Dimension(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT()));
-        arcanoid.setSize(Arcanoid.getWINDOW_WIDTH(), Arcanoid.getWINDOW_HEIGHT());
+        arcanoid.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        arcanoid.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         arcanoid.setResizable(false);
         arcanoid.setLocationRelativeTo(null);
-
-
     }
 
     private boolean checkWin() {
@@ -119,7 +121,7 @@ public class View {
         }
     }
 
-    void updateScoreboard() {
+    private void updateScoreboard() {
         text = "View: " + score + "  Lives: " + lives;
     }
 
@@ -135,10 +137,10 @@ public class View {
     }
 
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
-        gameField.drawScene(ball, blocks, paddle, this);
+        gameFieldCanvas.drawScene(ball, blocks, paddle, this);
     }
 
-    void createMenu() {
+    private void createMenu() {
         menuBar = new JMenuBar();
 
         JMenu menu = new JMenu("Меню");

@@ -9,22 +9,13 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.List;
 
+import static by.bsu.kulich.game.elements.view.View.WINDOW_HEIGHT;
+import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
+
 @Getter
-public class GameField extends Canvas {
+class GameFieldCanvas extends Canvas {
 
-    public final int WINDOW_WIDTH;
-    public final int WINDOW_HEIGHT;
-
-    public final double REAL_LEFT_WINDOW_BOUND = 0.0;
-    public final double REAL_RIGHT_WINDOW_BOUND;
-    public final double REAL_TOP_WINDOW_BOUND = 1.0;
-    public final double REAL_BOTTOM_WINDOW_BOUND;
-
-    GameField(int width, int height) {
-        WINDOW_WIDTH = width;
-        WINDOW_HEIGHT = height;
-        REAL_RIGHT_WINDOW_BOUND = WINDOW_WIDTH - 15.0;
-        REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 61.0;
+    GameFieldCanvas() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
     }
