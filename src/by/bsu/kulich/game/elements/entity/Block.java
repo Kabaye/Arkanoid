@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class Block extends Rectangle {
 
-    public static final double BLOCK_WIDTH = 60.0;
-    public static final double BLOCK_HEIGHT = 20.0;
+    public static final double BLOCK_WIDTH = 80.0;
+    public static final double BLOCK_HEIGHT = 30.0;
 
     @Setter
     @Getter

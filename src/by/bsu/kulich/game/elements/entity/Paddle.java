@@ -13,13 +13,12 @@ public class Paddle extends Rectangle implements Pausable {
     private static final double PADDLE_HEIGHT = 15.0;
     private static final double PADDLE_SIMPLE_STEP = 1.0;
 
-    private double velocityValue = 0.45;
+    private double velocityValue = 2.0;
     private double velocity = 0.0;
 
     @Getter
     private GameDifficultyLevel gameDifficultyLevel;
 
-    private int direction;
     private boolean pause;
 
     public Paddle(double x, double y, @NonNull GameDifficultyLevel difficultyLevel) {

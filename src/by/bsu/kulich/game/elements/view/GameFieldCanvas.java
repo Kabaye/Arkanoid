@@ -55,8 +55,10 @@ class GameFieldCanvas extends Canvas {
     }
 
     private void drawBlock(Graphics g, Block b) {
+        g.setColor(Color.BLACK);
+        g.drawRect((int) b.left(), (int) b.top(), (int) b.getSizeX(), (int) b.getSizeY());
         g.setColor(b.getColor());
-        g.fillRect((int) b.left(), (int) b.top(), (int) b.getSizeX(), (int) b.getSizeY());
+        g.fillRect((int) b.left() + 1, (int) b.top() + 1, (int) b.getSizeX() - 2, (int) b.getSizeY() - 2);
     }
 
     private void drawScore(Graphics g, View view) {
@@ -92,7 +94,7 @@ class GameFieldCanvas extends Canvas {
             drawScore(g, view);
 
             // real size of our window
-           /* g.setColor(Color.RED);
+           /*g.setColor(Color.RED);
             g.drawRect((int)REAL_LEFT_WINDOW_BOUND,(int)REAL_TOP_WINDOW_BOUND,5,5);
             g.drawRect((int) REAL_RIGHT_WINDOW_BOUND-5, (int)REAL_BOTTOM_WINDOW_BOUND-5,5,5);*/
         } finally {

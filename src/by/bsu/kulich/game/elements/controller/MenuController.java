@@ -34,6 +34,8 @@ public class MenuController implements ActionListener {
             arcanoid.pause();
             arcanoid.getView().showAboutDialog();
             arcanoid.continueGame();
+        } else if (e.getActionCommand().equals(ACTION_COMMANDS[5])) {
+            arcanoid.setRunning(false);
         }
 
     }

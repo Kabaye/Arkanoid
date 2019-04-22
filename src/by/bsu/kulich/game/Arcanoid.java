@@ -2,6 +2,7 @@ package by.bsu.kulich.game;
 
 import by.bsu.kulich.game.elements.Pausable;
 import by.bsu.kulich.game.elements.controller.GameController;
+import by.bsu.kulich.game.elements.creator.GameLevelCreator;
 import by.bsu.kulich.game.elements.entity.*;
 import by.bsu.kulich.game.elements.view.View;
 import lombok.Getter;
@@ -12,8 +13,6 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.bsu.kulich.game.elements.entity.Block.BLOCK_HEIGHT;
-import static by.bsu.kulich.game.elements.entity.Block.BLOCK_WIDTH;
 import static by.bsu.kulich.game.elements.view.View.REAL_BOTTOM_WINDOW_BOUND;
 import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 
@@ -23,20 +22,22 @@ public class Arcanoid extends JFrame implements Pausable {
     private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.MEDIUM;
 
     @Getter
-    private GameLevel gameLevel = GameLevel.BEGINNING;
+    private GameLevel gameLevel = GameLevel.FINAL;
 
     @Getter
     private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, gameDifficultyLevel);
     @Getter
     private Ball ball = new Ball(WINDOW_WIDTH / 2, REAL_BOTTOM_WINDOW_BOUND - 40, gameDifficultyLevel);
     private List<Block> blocks = new ArrayList<>();
+    private GameLevelCreator gameLevelCreator = new GameLevelCreator(gameLevel);
+
     @Getter
     private View view;
     private GameController gameController;
 
     @Getter
     @Setter
-    private int amountOfBlocks = 80;
+    private int amountOfBlocks = 1;
 
     @Setter
     @Getter
@@ -58,6 +59,8 @@ public class Arcanoid extends JFrame implements Pausable {
     private Arcanoid() {
         super("KABAYE INC. ARCANOID®");
 
+        this.setUndecorated(true);
+
         view = new View(this);
 
         this.gameController = new GameController(this);
@@ -69,7 +72,7 @@ public class Arcanoid extends JFrame implements Pausable {
         score = 0;
         lives = 2;
 
-        initializeBricks();
+        gameLevelCreator.createNewMap(blocks);
     }
 
     public static void main(String[] args) {
@@ -84,17 +87,6 @@ public class Arcanoid extends JFrame implements Pausable {
     public void setGameLevel(GameLevel level) {
         this.gameLevel = level;
         restart();
-    }
-
-    private void initializeBricks() {
-        blocks.clear();
-
-        for (int iX = 0; iX < 16; ++iX) {
-            for (int iY = 0; iY < 5; ++iY) {
-                blocks.add(new Block((iX + 1) * (BLOCK_WIDTH + 3) + 22,
-                        (iY + 2) * (BLOCK_HEIGHT + 3) + 20, GameLevel.BEGINNING));
-            }
-        }
     }
 
     private boolean isIntersecting(AbstractGameElement gameElement1, AbstractGameElement gameElement2) {
@@ -228,7 +220,8 @@ public class Arcanoid extends JFrame implements Pausable {
         loosed = false;
         score = 0;
         view.updateScore();
-        initializeBricks();
+        amountOfBlocks = gameLevelCreator.getBlockAmount();
+        gameLevelCreator.createNewMap(blocks);
     }
 
     @Override

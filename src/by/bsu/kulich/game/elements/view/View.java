@@ -17,11 +17,11 @@ public class View {
     public final static int WINDOW_HEIGHT = 800;
 
     public final static int REAL_LEFT_WINDOW_BOUND = 0;
-    public final static int REAL_RIGHT_WINDOW_BOUND = WINDOW_WIDTH - 15;
+    public final static int REAL_RIGHT_WINDOW_BOUND = WINDOW_WIDTH - 1;
     public final static int REAL_TOP_WINDOW_BOUND = 1;
-    public final static int REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 61;
+    public final static int REAL_BOTTOM_WINDOW_BOUND = WINDOW_HEIGHT - 24;
 
-    public final static String[] ACTION_COMMANDS = {"new", "difficulty", "level", "hot", "about"};
+    public final static String[] ACTION_COMMANDS = {"new", "difficulty", "level", "hot", "about", "close"};
 
     private final String ABOUT_ICON_PATH = "src/by/bsu/kulich/game/resources/A.jpg";
     private final ImageIcon ABOUT_ICON = new ImageIcon(ABOUT_ICON_PATH);
@@ -40,6 +40,8 @@ public class View {
     private JMenuItem hotKeys;
     @Getter
     private JMenuItem about;
+    @Getter
+    private JMenuItem close;
 
     private MenuController menuController;
 
@@ -152,20 +154,23 @@ public class View {
         menu = new JMenu("Меню");
         newGame = new JMenuItem("Начать новую игру");
         newGame.setActionCommand(ACTION_COMMANDS[0]);
-        changeDifficulty = new JMenuItem("Выбрать сложность");
+        changeDifficulty = new JMenuItem("Выбрать сложность...");
         changeDifficulty.setActionCommand(ACTION_COMMANDS[1]);
-        changeLevel = new JMenuItem("Выбрать уровень");
+        changeLevel = new JMenuItem("Выбрать уровень...");
         changeLevel.setActionCommand(ACTION_COMMANDS[2]);
-        hotKeys = new JMenuItem("Список горячих клавиш");
+        hotKeys = new JMenuItem("Список горячих клавиш...");
         hotKeys.setActionCommand(ACTION_COMMANDS[3]);
-        about = new JMenuItem("Об игре");
+        about = new JMenuItem("Об игре...");
         about.setActionCommand(ACTION_COMMANDS[4]);
+        close = new JMenuItem("Закрыть игру");
+        close.setActionCommand(ACTION_COMMANDS[5]);
 
         newGame.addActionListener(menuController);
         changeDifficulty.addActionListener(menuController);
         changeLevel.addActionListener(menuController);
         hotKeys.addActionListener(menuController);
         about.addActionListener(menuController);
+        close.addActionListener(menuController);
 
         menu.add(newGame);
         menu.add(changeDifficulty);
@@ -173,6 +178,8 @@ public class View {
         menu.add(hotKeys);
         menu.addSeparator();
         menu.add(about);
+        menu.addSeparator();
+        menu.add(close);
 
         menuBar.add(menu);
 
