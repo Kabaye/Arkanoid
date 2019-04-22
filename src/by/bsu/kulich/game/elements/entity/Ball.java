@@ -42,7 +42,7 @@ public class Ball extends AbstractGameElement implements Pausable {
                 break;
             case MEDIUM:
                 this.setColor(Color.GREEN);
-                this.setBallVelocity(0.49);
+                this.setBallVelocity(0.8);
                 break;
             case HARD:
                 this.setColor(Color.RED);
@@ -57,19 +57,6 @@ public class Ball extends AbstractGameElement implements Pausable {
                 this.setBallVelocity(0.666);
                 break;
         }
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval((int) left(), (int) top(), (int) radius * 2,
-                (int) radius * 2);
-    }
-
-    public void drawIfDied(Graphics g, Paddle p) {
-        g.setColor(color);
-        g.fillOval((int) (p.getX() - radius), (int) (p.getY() - p.getSizeY() / 2.0 - radius * 2), (int) radius * 2,
-                (int) radius * 2);
     }
 
     @Override

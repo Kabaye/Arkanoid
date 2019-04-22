@@ -15,6 +15,8 @@ public class Block extends Rectangle {
     @Getter
     private boolean destroyed = false;
     private GameLevel gameLevel;
+
+    @Getter
     private Color color;
 
     public Block(double x, double y, @NonNull GameLevel gameLevel) {
@@ -31,10 +33,5 @@ public class Block extends Rectangle {
                 color = Color.MAGENTA;
                 break;
         }
-    }
-
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillRect((int) left(), (int) top(), (int) getSizeX(), (int) getSizeY());
     }
 }

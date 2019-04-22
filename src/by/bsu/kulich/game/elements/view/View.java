@@ -15,7 +15,6 @@ import java.util.List;
 
 
 public class View {
-    private final static String FONT = "Arial";
 
     public final static int WINDOW_WIDTH = 800;
     public final static int WINDOW_HEIGHT = 700;
@@ -42,8 +41,6 @@ public class View {
     @Setter
     @Getter
     private GameDifficultyLevel difficultyLevel;
-
-    private Font font;
 
     @Getter
     private Arcanoid arcanoid;
@@ -72,7 +69,6 @@ public class View {
         score = 0;
         win = false;
         gameOver = false;
-        font = new Font(FONT, Font.PLAIN, 12);
         this.arcanoid = arcanoid;
         this.amountOfBlocks = arcanoid.getAmountOfBlocks();
 
@@ -125,17 +121,6 @@ public class View {
         text = "View: " + score + "  Lives: " + lives;
     }
 
-    void draw(Graphics g) {
-        font = font.deriveFont(34f);
-        FontMetrics fontMetrics = g.getFontMetrics(font);
-        g.setColor(Color.WHITE);
-        g.setFont(font);
-        int titleLen = fontMetrics.stringWidth(text);
-        int titleHeight = fontMetrics.getHeight();
-        g.drawString(text, (arcanoid.getWidth() / 2) - (titleLen / 2),
-                titleHeight + 5);
-    }
-
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
         gameFieldCanvas.drawScene(ball, blocks, paddle, this);
     }
@@ -144,12 +129,14 @@ public class View {
         menuBar = new JMenuBar();
 
         JMenu menu = new JMenu("Меню");
-        JMenuItem newGame = new JMenuItem("");
-        JMenuItem changeDifficulty = new JMenuItem("");
-        JMenuItem about = new JMenuItem("");
+        JMenuItem newGame = new JMenuItem("Начать новую игру");
+        JMenuItem changeDifficulty = new JMenuItem("Выбрать сложность и уровень");
+        JMenuItem hotKeys = new JMenuItem("Список горячих клавиш");
+        JMenuItem about = new JMenuItem("Об игре");
 
         menu.add(newGame);
         menu.add(changeDifficulty);
+        menu.add(hotKeys);
         menu.addSeparator();
         menu.add(about);
 

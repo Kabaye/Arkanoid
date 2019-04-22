@@ -54,7 +54,7 @@ public class Arcanoid extends JFrame {
     private void initializeBricks() {
         blocks.clear();
 
-        for (int iX = 0; iX < 10; ++iX) {
+        for (int iX = 0; iX < 11; ++iX) {
             for (int iY = 0; iY < 5; ++iY) {
                 blocks.add(new Block((iX + 1) * (BLOCK_WIDTH + 3) + 22,
                         (iY + 2) * (BLOCK_HEIGHT + 3) + 20, GameLevel.BEGINNING));

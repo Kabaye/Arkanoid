@@ -14,14 +14,51 @@ import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 
 @Getter
 class GameFieldCanvas extends Canvas {
+    private final static String FONT = "Arial";
+
+    private Font font;
 
     GameFieldCanvas() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setVisible(true);
+        font = new Font(FONT, Font.PLAIN, 12);
+        //this.setVisible(true);
     }
 
     void initBufferStrategy() {
         createBufferStrategy(2);
+    }
+
+    private void drawBall(Graphics g, Ball b) {
+        g.setColor(b.getColor());
+        g.fillOval((int) b.left(), (int) b.top(), (int) b.getRadius() * 2,
+                (int) b.getRadius() * 2);
+    }
+
+    private void drawBallIfDied(Graphics g, Ball b, Paddle p) {
+        g.setColor(b.getColor());
+        g.fillOval((int) (p.getX() - b.getRadius()), (int) (p.getY() - p.getSizeY() / 2.0 - b.getRadius() * 2), (int) b.getRadius() * 2,
+                (int) b.getRadius() * 2);
+    }
+
+    private void drawPaddle(Graphics g, Paddle p) {
+        g.setColor(Color.BLUE);
+        g.fillRect((int) (p.left()), (int) (p.top()), (int) p.getSizeX(), (int) p.getSizeY());
+    }
+
+    private void drawBlock(Graphics g, Block b) {
+        g.setColor(b.getColor());
+        g.fillRect((int) b.left(), (int) b.top(), (int) b.getSizeX(), (int) b.getSizeY());
+    }
+
+    private void drawScore(Graphics g, View view) {
+        font = font.deriveFont(34f);
+        FontMetrics fontMetrics = g.getFontMetrics(font);
+        g.setColor(Color.WHITE);
+        g.setFont(font);
+        int titleLen = fontMetrics.stringWidth(view.getText());
+        int titleHeight = fontMetrics.getHeight();
+        g.drawString(view.getText(), (WINDOW_WIDTH / 2) - (titleLen / 2),
+                titleHeight + 10);
     }
 
     void drawScene(Ball ball, List<Block> blocks, Paddle paddle, View view) {
@@ -34,16 +71,16 @@ class GameFieldCanvas extends Canvas {
             g.fillRect(0, 0, getWidth(), getHeight());
 
             if (ball.isDied())
-                ball.drawIfDied(g, paddle);
+                drawBallIfDied(g, ball, paddle);
             else
-                ball.draw(g);
-            paddle.draw(g);
+                drawBall(g, ball);
+
+            drawPaddle(g, paddle);
             for (Block block : blocks) {
-                block.draw(g);
+                drawBlock(g, block);
             }
 
-            view.draw(g);
-
+            drawScore(g, view);
 
             // real size of our window
 

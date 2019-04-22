@@ -4,8 +4,6 @@ import by.bsu.kulich.game.elements.Pausable;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.awt.*;
-
 public class Paddle extends Rectangle implements Pausable {
 
     private static final double PADDLE_WIDTH = 110.0;
@@ -73,12 +71,6 @@ public class Paddle extends Rectangle implements Pausable {
 
     public void moveRight() {
         this.velocity = this.velocityValue;
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect((int) (left()), (int) (top()), (int) getSizeX(), (int) getSizeY());
     }
 
     @Override
