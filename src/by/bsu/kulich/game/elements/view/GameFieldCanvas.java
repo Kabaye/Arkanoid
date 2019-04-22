@@ -1,7 +1,6 @@
 package by.bsu.kulich.game.elements.view;
 
 import by.bsu.kulich.game.elements.entity.*;
-import by.bsu.kulich.game.elements.loader.ImageLoader;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -9,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.List;
 
+import static by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
 import static by.bsu.kulich.game.elements.view.View.WINDOW_HEIGHT;
 import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 
@@ -16,16 +16,16 @@ import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 class GameFieldCanvas extends Canvas {
     private final static String FONT = "Arial";
     private final String LEVEL_COMPLETED_IMAGE_PATH = "won.jpg";
-    private final ImageIcon LEVEL_COMPLETED_IMAGE = new ImageIcon(ImageLoader.getImage(LEVEL_COMPLETED_IMAGE_PATH));
+    private final ImageIcon LEVEL_COMPLETED_IMAGE = new ImageIcon(getImage(LEVEL_COMPLETED_IMAGE_PATH));
 
     private final String LEVEL_COMPLETED_GOD_LEVEL_IMAGE_PATH = "level1.jpg";
-    private final ImageIcon LEVEL_COMPLETED_GOD_LEVEL_IMAGE = new ImageIcon(ImageLoader.getImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE_PATH));
+    private final ImageIcon LEVEL_COMPLETED_GOD_LEVEL_IMAGE = new ImageIcon(getImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE_PATH));
 
     private final String LEVEL_LOOSED_IMAGE_PATH = "loose.jpg";
-    private final ImageIcon LEVEL_LOOSED_IMAGE = new ImageIcon(ImageLoader.getImage(LEVEL_LOOSED_IMAGE_PATH));
+    private final ImageIcon LEVEL_LOOSED_IMAGE = new ImageIcon(getImage(LEVEL_LOOSED_IMAGE_PATH));
 
     private final String LEVEL_COMPLETED_GOD_IMAGE_PATH = "you_are_god.jpg";
-    private final ImageIcon LEVEL_COMPLETED_GOD_IMAGE = new ImageIcon(ImageLoader.getImage(LEVEL_COMPLETED_GOD_IMAGE_PATH));
+    private final ImageIcon LEVEL_COMPLETED_GOD_IMAGE = new ImageIcon(getImage(LEVEL_COMPLETED_GOD_IMAGE_PATH));
 
     private Font font;
 

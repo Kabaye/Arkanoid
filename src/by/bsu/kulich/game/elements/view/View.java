@@ -3,13 +3,14 @@ package by.bsu.kulich.game.elements.view;
 import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.controller.MenuController;
 import by.bsu.kulich.game.elements.entity.*;
-import by.bsu.kulich.game.elements.loader.ImageLoader;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.StringJoiner;
+
+import static by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
 
 
 public class View {
@@ -25,9 +26,9 @@ public class View {
     public final static String[] ACTION_COMMANDS = {"new", "difficulty", "level", "hot", "about", "close"};
 
     private final String ABOUT_ICON_PATH = "A.jpg";
-    private final ImageIcon ABOUT_ICON = new ImageIcon(ImageLoader.getImage(ABOUT_ICON_PATH));
+    private final ImageIcon ABOUT_ICON = new ImageIcon(getImage(ABOUT_ICON_PATH));
     private final String INFO_ICON_PATH = "info.png";
-    private final ImageIcon INFO_ICON = new ImageIcon(ImageLoader.getImage(INFO_ICON_PATH));
+    private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
 
     private JMenuBar menuBar;
     private JMenu menu;
