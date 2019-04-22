@@ -205,6 +205,7 @@ public class Arcanoid extends JFrame implements Pausable {
 
     private void run() {
         running = true;
+        view.showAllHotKeysDialog();
         while (running) {
             if (won) {
                 view.won();
