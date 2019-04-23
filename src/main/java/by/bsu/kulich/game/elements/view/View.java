@@ -62,7 +62,7 @@ public class View implements Observer {
     @Getter
     private String text = "";
 
-    final private String VERSION = "4.0.0";
+    final private String VERSION = "4.0.2";
 
     @Getter
     private Arkanoid arkanoid;
