@@ -210,7 +210,6 @@ public class View {
     private class Music {
         private Music() {
             try {
-
                 AudioInputStream stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC_PATH));
                 Clip clip = AudioSystem.getClip();
                 clip.open(stream);
