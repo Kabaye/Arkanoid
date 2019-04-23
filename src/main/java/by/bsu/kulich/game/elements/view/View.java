@@ -104,7 +104,7 @@ public class View implements Observer {
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 possibilities,
-                possibilities[0]);
+                arkanoid.getGameDifficultyLevel().toString());
 
         if ((s != null) && (s.length() > 0)) {
             arkanoid.setGameDifficultyLevel(GameDifficultyLevel.valueOf(s));
@@ -120,7 +120,7 @@ public class View implements Observer {
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 possibilities,
-                possibilities[0]);
+                arkanoid.getGameLevel().toString());
 
         if ((s != null) && (s.length() > 0)) {
             arkanoid.setGameLevel(GameLevel.valueOf(s));
