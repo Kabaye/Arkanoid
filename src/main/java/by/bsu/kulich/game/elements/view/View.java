@@ -114,6 +114,8 @@ public class View {
     }
 
     public void showAllHotKeysDialog() {
+        drawMainImage();
+
         final StringJoiner hotKeys = new StringJoiner("\n");
         hotKeys.add("\"ESC\" - выход из программы;")
                 .add("\"← / →\" - движение платформы влево / вправо;")
@@ -194,6 +196,10 @@ public class View {
 
     public void playMusic() {
         new Music();
+    }
+
+    public void drawMainImage() {
+        gameFieldCanvas.drawMainImage();
     }
 
     private class Music {

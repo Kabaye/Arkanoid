@@ -15,6 +15,7 @@ import static main.java.by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 @Getter
 class GameFieldCanvas extends Canvas {
     private final static String FONT = "Arial";
+
     private final String LEVEL_COMPLETED_IMAGE_PATH = "images/won.jpg";
     private final ImageIcon LEVEL_COMPLETED_IMAGE = new ImageIcon(getImage(LEVEL_COMPLETED_IMAGE_PATH));
 
@@ -26,6 +27,9 @@ class GameFieldCanvas extends Canvas {
 
     private final String LEVEL_COMPLETED_GOD_IMAGE_PATH = "images/you_are_god.jpg";
     private final ImageIcon LEVEL_COMPLETED_GOD_IMAGE = new ImageIcon(getImage(LEVEL_COMPLETED_GOD_IMAGE_PATH));
+
+    private final String MAIN_IMAGE_PATH = "images/arkanoid-logo.jpg";
+    private final ImageIcon MAIN_IMAGE = new ImageIcon(getImage(MAIN_IMAGE_PATH));
 
     private Font font;
 
@@ -184,6 +188,22 @@ class GameFieldCanvas extends Canvas {
                 g.drawString(text.substring(firstPart), (WINDOW_WIDTH / 2) - (titleLen1 / 2),
                         2 * titleHeight + 5);
             }
+        } finally {
+            g.dispose();
+        }
+
+        bf.show();
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    public void drawMainImage() {
+        BufferStrategy bf = this.getBufferStrategy();
+        Graphics g = null;
+        try {
+            g = bf.getDrawGraphics();
+
+            g.drawImage(MAIN_IMAGE.getImage(), 0, 0, null);
+
         } finally {
             g.dispose();
         }

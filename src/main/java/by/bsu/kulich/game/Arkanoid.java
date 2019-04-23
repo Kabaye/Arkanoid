@@ -79,10 +79,6 @@ public class Arkanoid extends JFrame implements Pausable {
         run();
     }
 
-   /* public static void main(String[] args) {
-        new Arkanoid().run();
-    }*/
-
     public void setGameDifficultyLevel(GameDifficultyLevel level) {
         this.gameDifficultyLevel = level;
         restart();
