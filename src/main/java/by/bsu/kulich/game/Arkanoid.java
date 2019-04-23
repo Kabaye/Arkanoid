@@ -6,6 +6,7 @@ import main.java.by.bsu.kulich.game.elements.Pausable;
 import main.java.by.bsu.kulich.game.elements.controller.GameController;
 import main.java.by.bsu.kulich.game.elements.creator.GameLevelCreator;
 import main.java.by.bsu.kulich.game.elements.entity.*;
+import main.java.by.bsu.kulich.game.elements.observer.DefaultUpdator;
 import main.java.by.bsu.kulich.game.elements.view.View;
 
 import javax.swing.*;
@@ -26,12 +27,15 @@ public class Arkanoid extends JFrame implements Pausable {
     @Getter
     private Paddle paddle = new Paddle(View.WINDOW_WIDTH / 2.0, View.REAL_BOTTOM_WINDOW_BOUND - 20, gameDifficultyLevel);
     @Getter
-    private Ball ball = new Ball(View.WINDOW_WIDTH / 2, View.REAL_BOTTOM_WINDOW_BOUND - 35, gameDifficultyLevel);
+    private Ball ball = new Ball(View.WINDOW_WIDTH / 2, View.REAL_BOTTOM_WINDOW_BOUND - 35, gameDifficultyLevel, paddle, this);
     private List<Block> blocks = new ArrayList<>();
     private GameLevelCreator gameLevelCreator = new GameLevelCreator(gameLevel);
 
+    private DefaultUpdator defaultUpdator = new DefaultUpdator();
+
     @Getter
     private View view;
+    @Getter
     private GameController gameController;
 
     @Getter
@@ -68,6 +72,8 @@ public class Arkanoid extends JFrame implements Pausable {
 
         this.addKeyListener(gameController);
 
+        view.addListener(gameController);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         score = 0;
@@ -75,7 +81,11 @@ public class Arkanoid extends JFrame implements Pausable {
         setLives();
 
         gameLevelCreator.createNewMap(blocks);
-        view.playMusic();
+        view.playMusic(gameLevel, gameDifficultyLevel);
+
+        defaultUpdator.add(ball);
+        defaultUpdator.add(paddle);
+        defaultUpdator.add(view);
         run();
     }
 
@@ -86,6 +96,7 @@ public class Arkanoid extends JFrame implements Pausable {
 
     public void setGameLevel(GameLevel level) {
         this.gameLevel = level;
+        view.playMusic(gameLevel, gameDifficultyLevel);
         restart();
     }
 
@@ -162,7 +173,7 @@ public class Arkanoid extends JFrame implements Pausable {
             if (score == amountOfBlocks)
                 won = true;
             else {
-                view.updateScore();
+                view.update();
             }
         }
     }
@@ -173,14 +184,16 @@ public class Arkanoid extends JFrame implements Pausable {
         if (lives == 0) {
             loosed = true;
         } else {
-            view.updateScore();
+            view.update();
         }
     }
 
     private void update() {
-        ball.update(this, paddle);
+        /*ball.update();
         paddle.update();
-        view.updateScore();
+        view.update();*/
+
+        defaultUpdator.notifyObservers();
 
         testCollision(paddle, ball);
 
@@ -238,24 +251,23 @@ public class Arkanoid extends JFrame implements Pausable {
             }
         };
         timer.schedule(starting1, 2000);
-
-
-
     }
 
     public void restart() {
+        won = false;
         ball.setGameDifficultyLevel(this.getGameDifficultyLevel());
         paddle.setGameDifficultyLevel(this.getGameDifficultyLevel());
         gameLevelCreator.setGameLevel(this.getGameLevel());
         ball.die();
         setLives();
         this.continueGame();
-        won = false;
         loosed = false;
         score = 0;
-        view.updateScore();
+        view.update();
         amountOfBlocks = gameLevelCreator.getBlockAmount();
         gameLevelCreator.createNewMap(blocks);
+
+        gameController.setNextLevel(false);
     }
 
     private void setLives() {

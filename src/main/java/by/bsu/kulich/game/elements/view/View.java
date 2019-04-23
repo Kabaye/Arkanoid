@@ -3,12 +3,15 @@ package main.java.by.bsu.kulich.game.elements.view;
 
 import lombok.Getter;
 import main.java.by.bsu.kulich.game.Arkanoid;
+import main.java.by.bsu.kulich.game.elements.controller.GameController;
 import main.java.by.bsu.kulich.game.elements.controller.MenuController;
 import main.java.by.bsu.kulich.game.elements.entity.*;
+import main.java.by.bsu.kulich.game.elements.observer.Observer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -18,7 +21,7 @@ import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getIma
 import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getMusicURL;
 
 
-public class View {
+public class View implements Observer {
 
     public final static int WINDOW_WIDTH = 1280;
     public final static int WINDOW_HEIGHT = 800;
@@ -35,8 +38,12 @@ public class View {
     private final String INFO_ICON_PATH = "images/info.png";
     private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
 
-    private final String MUSIC_PATH = "music/1.wav";
+    private final String MUSIC1_PATH = "music/1.wav";
+    private final String MUSIC2_PATH = "music/2.wav";
+    private final String MUSIC3_PATH = "music/3.wav";
+    private final String MUSIC4_PATH = "music/4.wav";
 
+    @Getter
     private JMenuBar menuBar;
     @Getter
     private JMenu menu;
@@ -50,8 +57,12 @@ public class View {
 
     private MenuController menuController;
 
+    private Music music;
+
     @Getter
     private String text = "";
+
+    final private String VERSION = "4.0.2";
 
     @Getter
     private Arkanoid arkanoid;
@@ -64,7 +75,7 @@ public class View {
         arkanoid.setLayout(new BorderLayout());
         JPanel canvasPanel = new JPanel(new BorderLayout());
 
-        gameFieldCanvas = new GameFieldCanvas();
+        gameFieldCanvas = new GameFieldCanvas(arkanoid);
         arkanoid.setVisible(true);
         createMenu();
 
@@ -80,6 +91,8 @@ public class View {
 
         arkanoid.setResizable(false);
         arkanoid.setLocationRelativeTo(null);
+
+        music = new Music();
     }
 
     public void showChangeDifficultyDialog() {
@@ -131,13 +144,14 @@ public class View {
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arkanoid® версия 3.0.0")
+        about.add("Arkanoid® версия " + VERSION)
                 .add("Copyright (C) 2018 KABAYE INC.")
                 .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);
     }
 
-    public void updateScore() {
+    @Override
+    public void update() {
         text = "Score: " + arkanoid.getScore() + "  Lives: " + arkanoid.getLives();
     }
 
@@ -195,8 +209,19 @@ public class View {
         arkanoid.setJMenuBar(menuBar);
     }
 
-    public void playMusic() {
-        new Music();
+    public void playMusic(GameLevel level, GameDifficultyLevel difficulty) {
+        int i;
+        if (level == GameLevel.BEGINNING) {
+            i = 1;
+        } else if (level == GameLevel.MEDIUM) {
+            i = 2;
+        } else if (level == GameLevel.FINAL && difficulty == GameDifficultyLevel.YOU_ARE_GOD && gameFieldCanvas.getEasterEgg()[0] && gameFieldCanvas.getEasterEgg()[1]) {
+            i = 3;
+        } else {
+            i = 4;
+        }
+
+        music.playMusic(i);
     }
 
     public void drawMainImage() {
@@ -207,15 +232,49 @@ public class View {
         gameFieldCanvas.start();
     }
 
+    public void addListener(GameController gameController) {
+        gameFieldCanvas.addKeyListener(gameController);
+
+    }
+
     private class Music {
+        Clip clip;
+        int j = 0;
+
         private Music() {
             try {
-                AudioInputStream stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC_PATH));
-                Clip clip = AudioSystem.getClip();
-                clip.open(stream);
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (Exception exc) {
-                JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC_PATH);
+                clip = AudioSystem.getClip();
+            } catch (LineUnavailableException exc) {
+
+            }
+        }
+
+        private void playMusic(int i) {
+            if (j != i) {
+                j = i;
+                try {
+                    clip.stop();
+                    clip.close();
+                    AudioInputStream stream = null;
+                    switch (i) {
+                        case 1:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC1_PATH));
+                            break;
+                        case 2:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC2_PATH));
+                            break;
+                        case 3:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC3_PATH));
+                            break;
+                        case 4:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC4_PATH));
+                            break;
+                    }
+                    clip.open(stream);
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                } catch (Exception exc) {
+                    JOptionPane.showMessageDialog(null, "FILE NOT FOUND \n" + i);
+                }
             }
         }
     }

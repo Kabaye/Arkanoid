@@ -15,7 +15,7 @@ public class GameLevelCreator {
     private int blockAmount;
 
     public GameLevelCreator(GameLevel gameLevel) {
-        this.gameLevel = gameLevel;
+        setGameLevel(gameLevel);
     }
 
     public void setGameLevel(GameLevel gameLevel) {
