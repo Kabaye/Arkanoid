@@ -56,6 +56,8 @@ public class View implements Observer {
     @Getter
     private String text = "";
 
+    final private String VERSION = "3.2.0";
+
     @Getter
     private Arkanoid arkanoid;
 
@@ -134,7 +136,7 @@ public class View implements Observer {
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arkanoid® версия 3.1.0")
+        about.add("Arkanoid® версия " + VERSION)
                 .add("Copyright (C) 2018 KABAYE INC.")
                 .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);

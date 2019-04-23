@@ -226,7 +226,6 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
                         view.loosed();
                     } else {
                         update();
-                        System.out.println(arkanoid.isFocused());
                         view.drawScene(ball, blocks, paddle);
                     }
                 } else {
@@ -252,9 +251,6 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
             }
         };
         timer.schedule(starting1, 2000);
-
-
-
     }
 
     public void restart() {
