@@ -5,14 +5,18 @@ import lombok.NonNull;
 import lombok.Setter;
 import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.Pausable;
+import main.java.by.bsu.kulich.game.elements.observer.Observer;
 import main.java.by.bsu.kulich.game.elements.view.View;
 
 import java.awt.*;
 
 @Getter
-public class Ball extends AbstractGameElement implements Pausable {
+public class Ball extends AbstractGameElement implements Pausable, Observer {
     public static final double BALL_RADIUS = 7.0;
     private static final double BALL_SIMPLE_STEP = 1.0;
+
+    private Paddle paddle;
+    private Arkanoid arkanoid;
 
     private double x, y;
     private double radius = BALL_RADIUS;
@@ -30,11 +34,13 @@ public class Ball extends AbstractGameElement implements Pausable {
     @Getter
     private boolean died = true;
 
-    public Ball(int x, int y, @NonNull GameDifficultyLevel difficultyLevel) {
+    public Ball(int x, int y, @NonNull GameDifficultyLevel difficultyLevel, Paddle paddle, Arkanoid arkanoid) {
         this.x = x;
         this.y = y;
         this.difficultyLevel = difficultyLevel;
         this.setGameDifficultyLevel(difficultyLevel);
+        this.paddle = paddle;
+        this.arkanoid = arkanoid;
     }
 
     @Override
@@ -59,7 +65,8 @@ public class Ball extends AbstractGameElement implements Pausable {
         died = true;
     }
 
-    public void update(Arkanoid arkanoid, Paddle paddle) {
+    @Override
+    public void update() {
         if (!pause && !died) {
             x += velocityX * BALL_SIMPLE_STEP;
             y += velocityY * BALL_SIMPLE_STEP;

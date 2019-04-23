@@ -5,6 +5,7 @@ import lombok.Getter;
 import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.controller.MenuController;
 import main.java.by.bsu.kulich.game.elements.entity.*;
+import main.java.by.bsu.kulich.game.elements.observer.Observer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,7 +19,7 @@ import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getIma
 import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getMusicURL;
 
 
-public class View {
+public class View implements Observer {
 
     public final static int WINDOW_WIDTH = 1280;
     public final static int WINDOW_HEIGHT = 800;
@@ -131,13 +132,14 @@ public class View {
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arkanoid® версия 3.0.0")
+        about.add("Arkanoid® версия 3.1.0")
                 .add("Copyright (C) 2018 KABAYE INC.")
                 .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);
     }
 
-    public void updateScore() {
+    @Override
+    public void update() {
         text = "Score: " + arkanoid.getScore() + "  Lives: " + arkanoid.getLives();
     }
 
