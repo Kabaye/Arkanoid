@@ -60,7 +60,7 @@ public class Arcanoid extends JFrame implements Pausable {
 
     private Timer timer;
 
-    private Arcanoid() {
+    public Arcanoid() {
         super("KABAYE INC. ARCANOID®");
 
         this.setUndecorated(true);
@@ -78,11 +78,13 @@ public class Arcanoid extends JFrame implements Pausable {
         setLives();
 
         gameLevelCreator.createNewMap(blocks);
+
+        run();
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         new Arcanoid().run();
-    }
+    }*/
 
     public void setGameDifficultyLevel(GameDifficultyLevel level) {
         this.gameDifficultyLevel = level;

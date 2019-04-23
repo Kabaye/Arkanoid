@@ -11,6 +11,10 @@ public class Block extends Rectangle {
     public static final double BLOCK_WIDTH = 80.0;
     public static final double BLOCK_HEIGHT = 30.0;
 
+    private final Color MEDIUM_COLOR = new Color(162, 21, 193);
+    private final Color BEGINNING_COLOR = new Color(0, 255, 50);
+    private final Color FINAL_COLOR = new Color(239, 110, 50);
+
     @Setter
     @Getter
     private boolean destroyed = false;
@@ -24,13 +28,13 @@ public class Block extends Rectangle {
         this.gameLevel = gameLevel;
         switch (this.gameLevel) {
             case BEGINNING:
-                color = Color.YELLOW;
+                color = BEGINNING_COLOR;
                 break;
             case MEDIUM:
-                color = Color.CYAN;
+                color = MEDIUM_COLOR;
                 break;
             case FINAL:
-                color = Color.MAGENTA;
+                color = FINAL_COLOR;
                 break;
         }
     }

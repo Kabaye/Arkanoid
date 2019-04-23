@@ -4,12 +4,12 @@ import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.controller.MenuController;
 import by.bsu.kulich.game.elements.entity.*;
 import by.bsu.kulich.game.elements.loader.ResourceLoader;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
+import javafx.scene.media.AudioClip;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -33,7 +33,7 @@ public class View {
     private final String INFO_ICON_PATH = "images/info.png";
     private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
 
-    private final String MUSIC_PATH = "music/1.mp3";
+    private final String MUSIC_PATH = "music/1.wav";
 
     private JMenuBar menuBar;
     @Getter
@@ -192,7 +192,7 @@ public class View {
     }
 
     public void playMusic() {
-        Music music = new Music();
+        new Music();
     }
 
     private class Music extends Thread {
@@ -209,14 +209,14 @@ public class View {
         @Override
         public void run() {
             try {
-                Player player = new Player(ResourceLoader.getMusicStream(MUSIC_PATH));
-                player.play();
-            } catch (JavaLayerException exc) {
-                System.out.println("LayerException");
+                AudioClip clip = new AudioClip(ResourceLoader.getMusicURL(MUSIC_PATH).toString());
+                clip.play(100.0);
+            } catch (IOException exc) {
+                JOptionPane.showMessageDialog(null, "FILE NOT FOUND");
             }
+
         }
     }
-
 
 
 }

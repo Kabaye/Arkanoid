@@ -13,7 +13,7 @@ import static by.bsu.kulich.game.elements.view.View.*;
 @Getter
 public class Ball extends AbstractGameElement implements Pausable {
     public static final double BALL_RADIUS = 7.0;
-    private static final double BALL_SIMPLE_STEP = 0.8;
+    private static final double BALL_SIMPLE_STEP = 1.0;
 
     private double x, y;
     private double radius = BALL_RADIUS;
@@ -85,7 +85,7 @@ public class Ball extends AbstractGameElement implements Pausable {
         this.difficultyLevel = level;
         switch (this.difficultyLevel) {
             case LIGHT:
-                this.setColor(Color.MAGENTA);
+                this.setColor(Color.WHITE);
                 this.setBallVelocity(1.5);
                 break;
             case MEDIUM:

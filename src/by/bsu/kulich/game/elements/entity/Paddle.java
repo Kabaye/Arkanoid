@@ -43,23 +43,23 @@ public class Paddle extends Rectangle implements Pausable {
         switch (this.gameDifficultyLevel) {
             case LIGHT:
                 this.setSizeX(PADDLE_WIDTH);
-                this.velocityValue = 2.6;
+                this.velocityValue = 2.2;
                 break;
             case MEDIUM:
                 this.setSizeX(PADDLE_WIDTH - 15.0);
-                this.velocityValue = 2.3;
+                this.velocityValue = 2.0;
                 break;
             case HARD:
                 this.setSizeX(PADDLE_WIDTH - 30.0);
-                this.velocityValue = 1.9;
+                this.velocityValue = 1.85;
                 break;
             case VERY_HARD:
                 this.setSizeX(PADDLE_WIDTH - 50.0);
-                this.velocityValue = 1.59;
+                this.velocityValue = 1.7;
                 break;
             case YOU_ARE_GOD:
                 this.setSizeX(PADDLE_WIDTH - 75.0);
-                this.velocityValue = 1.33;
+                this.velocityValue = 1.5;
                 break;
         }
     }

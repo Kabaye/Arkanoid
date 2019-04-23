@@ -44,7 +44,7 @@ public class GameLevelCreator {
                 for (int iX = 0; iX < 15; ++iX) {
                     for (int iY = 0; iY < 6; ++iY) {
                         blocks.add(new Block((iX + 1) * (BLOCK_WIDTH) - 10,
-                                (iY + 2) * (BLOCK_HEIGHT) + 25, GameLevel.BEGINNING));
+                                (iY + 2) * (BLOCK_HEIGHT) + 25, gameLevel));
                     }
                 }
                 break;
@@ -55,7 +55,7 @@ public class GameLevelCreator {
                 for (int iY = 0; iY < 7; ++iY) {
                     for (int iX = counter; iX < 15 - counter; ++iX) {
                         blocks.add(new Block((iX + 1) * (BLOCK_WIDTH) - 10,
-                                (iY + 2) * (BLOCK_HEIGHT) + 25, GameLevel.BEGINNING));
+                                (iY + 2) * (BLOCK_HEIGHT) + 25, gameLevel));
                     }
                     counter += 1;
                 }
@@ -67,7 +67,7 @@ public class GameLevelCreator {
                     for (int iX = 0; iX < 15; ++iX) {
                         if ((iX < 1 + counter) || (iX > 3 + counter && iX < 11 - counter) || (iX > 13 - counter))
                             blocks.add(new Block((iX + 1) * (BLOCK_WIDTH) - 10,
-                                    (iY + 2) * (BLOCK_HEIGHT) + 25, GameLevel.BEGINNING));
+                                    (iY + 2) * (BLOCK_HEIGHT) + 25, gameLevel));
                     }
                     if (iY < 3)
                         counter++;
