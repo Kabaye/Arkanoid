@@ -7,7 +7,6 @@ import main.java.by.bsu.kulich.game.elements.controller.GameController;
 import main.java.by.bsu.kulich.game.elements.creator.GameLevelCreator;
 import main.java.by.bsu.kulich.game.elements.entity.*;
 import main.java.by.bsu.kulich.game.elements.observer.DefaultUpdator;
-import main.java.by.bsu.kulich.game.elements.observer.Observer;
 import main.java.by.bsu.kulich.game.elements.view.View;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Arkanoid extends JFrame implements Pausable, Observer {
+public class Arkanoid extends JFrame implements Pausable {
 
     @Getter
     private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.LIGHT;
@@ -189,8 +188,7 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
         }
     }
 
-    @Override
-    public void update() {
+    private void update() {
         /*ball.update();
         paddle.update();
         view.update();*/
