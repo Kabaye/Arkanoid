@@ -3,7 +3,7 @@ package main.java.by.bsu.kulich.game.elements.entity;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import main.java.by.bsu.kulich.game.Arcanoid;
+import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.Pausable;
 import main.java.by.bsu.kulich.game.elements.view.View;
 
@@ -59,7 +59,7 @@ public class Ball extends AbstractGameElement implements Pausable {
         died = true;
     }
 
-    public void update(Arcanoid arcanoid, Paddle paddle) {
+    public void update(Arkanoid arkanoid, Paddle paddle) {
         if (!pause && !died) {
             x += velocityX * BALL_SIMPLE_STEP;
             y += velocityY * BALL_SIMPLE_STEP;
@@ -72,7 +72,7 @@ public class Ball extends AbstractGameElement implements Pausable {
                 velocityY = -velocityY;
             } else if (bottom() > View.REAL_BOTTOM_WINDOW_BOUND) {
                 velocityY = -ballVelocity;
-                arcanoid.die();
+                arkanoid.die();
             }
         } else if (died && !pause) {
             x = paddle.getX();

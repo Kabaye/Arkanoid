@@ -2,7 +2,7 @@ package main.java.by.bsu.kulich.game.elements.controller;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.by.bsu.kulich.game.Arcanoid;
+import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
 import main.java.by.bsu.kulich.game.elements.entity.GameLevel;
 
@@ -10,14 +10,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GameController implements KeyListener {
-    private Arcanoid arcanoid;
+    private Arkanoid arkanoid;
 
     @Getter
     @Setter
     private boolean isStarted;
 
-    public GameController(Arcanoid arcanoid) {
-        this.arcanoid = arcanoid;
+    public GameController(Arkanoid arkanoid) {
+        this.arkanoid = arkanoid;
         isStarted = false;
     }
 
@@ -30,50 +30,50 @@ public class GameController implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                arcanoid.getPaddle().moveLeft();
+                arkanoid.getPaddle().moveLeft();
                 break;
             case KeyEvent.VK_RIGHT:
-                arcanoid.getPaddle().moveRight();
+                arkanoid.getPaddle().moveRight();
                 break;
             case KeyEvent.VK_ESCAPE:
-                arcanoid.setRunning(!arcanoid.isRunning());
+                arkanoid.setRunning(!arkanoid.isRunning());
                 break;
             case KeyEvent.VK_SPACE:
-                if (!isStarted || arcanoid.getBall().isDied()) {
-                    arcanoid.getBall().start();
+                if (!isStarted || arkanoid.getBall().isDied()) {
+                    arkanoid.getBall().start();
                     isStarted = true;
                 }
                 break;
             case KeyEvent.VK_CONTROL:
-                if (arcanoid.getBall().isPause()) {
-                    arcanoid.getBall().continueGame();
-                    arcanoid.getPaddle().continueGame();
+                if (arkanoid.getBall().isPause()) {
+                    arkanoid.getBall().continueGame();
+                    arkanoid.getPaddle().continueGame();
                 } else {
-                    arcanoid.getBall().pause();
-                    arcanoid.getPaddle().pause();
+                    arkanoid.getBall().pause();
+                    arkanoid.getPaddle().pause();
                 }
                 break;
 
             case KeyEvent.VK_R:
-                if (arcanoid.isLoosed())
-                    arcanoid.restart();
+                if (arkanoid.isLoosed())
+                    arkanoid.restart();
                 break;
 
             case KeyEvent.VK_S: {
-                if (arcanoid.isWon() && arcanoid.getGameDifficultyLevel() != GameDifficultyLevel.YOU_ARE_GOD) {
-                    arcanoid.setGameDifficultyLevel(GameDifficultyLevel.nextGameDifficultyLevel(arcanoid.getGameDifficultyLevel()));
-                    arcanoid.restart();
+                if (arkanoid.isWon() && arkanoid.getGameDifficultyLevel() != GameDifficultyLevel.YOU_ARE_GOD) {
+                    arkanoid.setGameDifficultyLevel(GameDifficultyLevel.nextGameDifficultyLevel(arkanoid.getGameDifficultyLevel()));
+                    arkanoid.restart();
                 }
                 break;
             }
             case KeyEvent.VK_N:
-                if (arcanoid.isWon() && arcanoid.getGameLevel() != GameLevel.FINAL) {
-                    arcanoid.setGameLevel(GameLevel.nextGameLevel(arcanoid.getGameLevel()));
+                if (arkanoid.isWon() && arkanoid.getGameLevel() != GameLevel.FINAL) {
+                    arkanoid.setGameLevel(GameLevel.nextGameLevel(arkanoid.getGameLevel()));
                 }
                 break;
 
             case KeyEvent.VK_M:
-                arcanoid.getView().getMenu().doClick(1);
+                arkanoid.getView().getMenu().doClick(1);
                 break;
         }
     }
@@ -81,7 +81,7 @@ public class GameController implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            arcanoid.getPaddle().stopMove();
+            arkanoid.getPaddle().stopMove();
         }
     }
 }

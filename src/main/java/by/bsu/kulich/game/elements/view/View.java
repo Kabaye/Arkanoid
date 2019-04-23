@@ -1,7 +1,7 @@
 package main.java.by.bsu.kulich.game.elements.view;
 
 import lombok.Getter;
-import main.java.by.bsu.kulich.game.Arcanoid;
+import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.controller.MenuController;
 import main.java.by.bsu.kulich.game.elements.entity.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
-import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getMusicInputStream;
+import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getMusicURL;
 
 
 public class View {
@@ -53,32 +53,32 @@ public class View {
     private String text = "";
 
     @Getter
-    private Arcanoid arcanoid;
+    private Arkanoid arkanoid;
 
     private GameFieldCanvas gameFieldCanvas;
 
-    public View(Arcanoid arcanoid) {
-        this.arcanoid = arcanoid;
+    public View(Arkanoid arkanoid) {
+        this.arkanoid = arkanoid;
 
-        arcanoid.setLayout(new BorderLayout());
+        arkanoid.setLayout(new BorderLayout());
         JPanel canvasPanel = new JPanel(new BorderLayout());
 
         gameFieldCanvas = new GameFieldCanvas();
-        arcanoid.setVisible(true);
+        arkanoid.setVisible(true);
         createMenu();
 
         canvasPanel.add(gameFieldCanvas);
         canvasPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         canvasPanel.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        arcanoid.add(canvasPanel, BorderLayout.CENTER);
+        arkanoid.add(canvasPanel, BorderLayout.CENTER);
         gameFieldCanvas.initBufferStrategy();
 
-        arcanoid.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        arcanoid.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        arkanoid.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        arkanoid.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        arcanoid.setResizable(false);
-        arcanoid.setLocationRelativeTo(null);
+        arkanoid.setResizable(false);
+        arkanoid.setLocationRelativeTo(null);
     }
 
     public void showChangeDifficultyDialog() {
@@ -93,7 +93,7 @@ public class View {
                 possibilities[0]);
 
         if ((s != null) && (s.length() > 0)) {
-            arcanoid.setGameDifficultyLevel(GameDifficultyLevel.valueOf(s));
+            arkanoid.setGameDifficultyLevel(GameDifficultyLevel.valueOf(s));
         }
     }
 
@@ -109,7 +109,7 @@ public class View {
                 possibilities[0]);
 
         if ((s != null) && (s.length() > 0)) {
-            arcanoid.setGameLevel(GameLevel.valueOf(s));
+            arkanoid.setGameLevel(GameLevel.valueOf(s));
         }
     }
 
@@ -128,14 +128,14 @@ public class View {
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arcanoid® версия 2.3.5")
+        about.add("Arkanoid® версия 2.3.7")
                 .add("Copyright (C) 2018 KABAYE INC.")
-                .add("ARCANOID® All rights reserved.");
+                .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);
     }
 
     public void updateScore() {
-        text = "Score: " + arcanoid.getScore() + "  Lives: " + arcanoid.getLives();
+        text = "Score: " + arkanoid.getScore() + "  Lives: " + arkanoid.getLives();
     }
 
     public void loosed() {
@@ -145,7 +145,7 @@ public class View {
 
     public void won() {
         text = "Вы выиграли! Чтобы перейти на следующий уровень, нажмите \"N\".\n Если хотите переиграть этот уровень на более высоком уровне сложности, нажмите \"S\".";
-        gameFieldCanvas.drawWonScene(arcanoid.getGameDifficultyLevel(), arcanoid.getGameLevel(), this.text);
+        gameFieldCanvas.drawWonScene(arkanoid.getGameDifficultyLevel(), arkanoid.getGameLevel(), this.text);
     }
 
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
@@ -169,7 +169,7 @@ public class View {
         close = new JMenuItem("Закрыть игру");
         close.setActionCommand(ACTION_COMMANDS[5]);
 
-        menuController = new MenuController(arcanoid, menu);
+        menuController = new MenuController(arkanoid, menu);
 
         newGame.addActionListener(menuController);
         changeDifficulty.addActionListener(menuController);
@@ -189,33 +189,22 @@ public class View {
 
         menuBar.add(menu);
 
-        arcanoid.setJMenuBar(menuBar);
+        arkanoid.setJMenuBar(menuBar);
     }
 
     public void playMusic() {
         new Music();
     }
 
-    private class Music extends Thread {
-
+    private class Music {
         private Music() {
-            start();
-        }
-
-        @Override
-        public synchronized void start() {
-            super.start();
-        }
-
-        @Override
-        public void run() {
             try {
-                AudioInputStream stream = AudioSystem.getAudioInputStream(getMusicInputStream(MUSIC_PATH));
+                AudioInputStream stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC_PATH));
                 Clip clip = AudioSystem.getClip();
                 clip.open(stream);
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             } catch (Exception exc) {
-                JOptionPane.showMessageDialog(null, "FILE NOT FOUND");
+                //JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC_PATH);
             }
 
         }

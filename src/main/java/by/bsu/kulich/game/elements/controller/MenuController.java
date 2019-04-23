@@ -1,6 +1,6 @@
 package main.java.by.bsu.kulich.game.elements.controller;
 
-import main.java.by.bsu.kulich.game.Arcanoid;
+import main.java.by.bsu.kulich.game.Arkanoid;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,34 +9,34 @@ import java.awt.event.ActionListener;
 import static main.java.by.bsu.kulich.game.elements.view.View.ACTION_COMMANDS;
 
 public class MenuController implements ActionListener {
-    private Arcanoid arcanoid;
+    private Arkanoid arkanoid;
 
-    public MenuController(Arcanoid arcanoid, JMenu menu) {
-        this.arcanoid = arcanoid;
+    public MenuController(Arkanoid arkanoid, JMenu menu) {
+        this.arkanoid = arkanoid;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(ACTION_COMMANDS[0])) {
-            arcanoid.restart();
+            arkanoid.restart();
         } else if (e.getActionCommand().equals(ACTION_COMMANDS[1])) {
-            arcanoid.pause();
-            arcanoid.getView().showChangeDifficultyDialog();
-            arcanoid.continueGame();
+            arkanoid.pause();
+            arkanoid.getView().showChangeDifficultyDialog();
+            arkanoid.continueGame();
         } else if (e.getActionCommand().equals(ACTION_COMMANDS[2])) {
-            arcanoid.pause();
-            arcanoid.getView().showChangeLevelDialog();
-            arcanoid.continueGame();
+            arkanoid.pause();
+            arkanoid.getView().showChangeLevelDialog();
+            arkanoid.continueGame();
         } else if (e.getActionCommand().equals(ACTION_COMMANDS[3])) {
-            arcanoid.pause();
-            arcanoid.getView().showAllHotKeysDialog();
-            arcanoid.continueGame();
+            arkanoid.pause();
+            arkanoid.getView().showAllHotKeysDialog();
+            arkanoid.continueGame();
         } else if (e.getActionCommand().equals(ACTION_COMMANDS[4])) {
-            arcanoid.pause();
-            arcanoid.getView().showAboutDialog();
-            arcanoid.continueGame();
+            arkanoid.pause();
+            arkanoid.getView().showAboutDialog();
+            arkanoid.continueGame();
         } else if (e.getActionCommand().equals(ACTION_COMMANDS[5])) {
-            arcanoid.setRunning(false);
+            arkanoid.setRunning(false);
         }
 
 

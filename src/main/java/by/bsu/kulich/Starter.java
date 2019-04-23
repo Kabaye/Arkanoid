@@ -1,10 +1,10 @@
 package main.java.by.bsu.kulich;
 
-import main.java.by.bsu.kulich.game.Arcanoid;
+import main.java.by.bsu.kulich.game.Arkanoid;
 
 public class Starter {
 
     public static void main(String[] args) {
-        Arcanoid arcanoid = new Arcanoid();
+        Arkanoid arkanoid = new Arkanoid();
     }
 }
