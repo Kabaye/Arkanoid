@@ -30,6 +30,17 @@ class GameFieldCanvas extends Canvas {
     private final String MAIN_IMAGE_PATH = "images/arkanoid-logo.jpg";
     private final ImageIcon MAIN_IMAGE = new ImageIcon(getImage(MAIN_IMAGE_PATH));
 
+    private final String LEVEL1_BACKGROUND_PATH = "images/fon1.jpg";
+    private final ImageIcon LEVEL1_BACKGROUND = new ImageIcon(getImage(LEVEL1_BACKGROUND_PATH));
+
+    private final String LEVEL2_BACKGROUND_PATH = "images/fon2.jpg";
+    private final ImageIcon LEVEL2_BACKGROUND = new ImageIcon(getImage(LEVEL2_BACKGROUND_PATH));
+
+    private final String LEVEL3_BACKGROUND_PATH = "images/fon3.jpg";
+    private final ImageIcon LEVEL3_BACKGROUND = new ImageIcon(getImage(LEVEL3_BACKGROUND_PATH));
+
+
+
     private Font font;
 
 
@@ -77,14 +88,26 @@ class GameFieldCanvas extends Canvas {
                 titleHeight + 10);
     }
 
-    void drawScene(Ball ball, List<Block> blocks, Paddle paddle, View view) {
+    void drawScene(Ball ball, List<Block> blocks, Paddle paddle, View view, GameLevel level) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
         try {
             g = bf.getDrawGraphics();
 
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
+//            g.setColor(Color.BLACK);
+//            g.fillRect(0, 0, getWidth(), getHeight());
+
+            switch (level) {
+                case BEGINNING:
+                    g.drawImage(LEVEL1_BACKGROUND.getImage(), 0, 0, null);
+                    break;
+                case MEDIUM:
+                    g.drawImage(LEVEL2_BACKGROUND.getImage(), 0, 0, null);
+                    break;
+                case FINAL:
+                    g.drawImage(LEVEL3_BACKGROUND.getImage(), 0, 0, null);
+                    break;
+            }
 
             if (ball.isDied())
                 drawBallIfDied(g, ball, paddle);
