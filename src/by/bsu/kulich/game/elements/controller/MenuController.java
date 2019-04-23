@@ -2,6 +2,7 @@ package by.bsu.kulich.game.elements.controller;
 
 import by.bsu.kulich.game.Arcanoid;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,7 +11,7 @@ import static by.bsu.kulich.game.elements.view.View.ACTION_COMMANDS;
 public class MenuController implements ActionListener {
     private Arcanoid arcanoid;
 
-    public MenuController(Arcanoid arcanoid) {
+    public MenuController(Arcanoid arcanoid, JMenu menu) {
         this.arcanoid = arcanoid;
     }
 
@@ -37,6 +38,7 @@ public class MenuController implements ActionListener {
         } else if (e.getActionCommand().equals(ACTION_COMMANDS[5])) {
             arcanoid.setRunning(false);
         }
+
 
     }
 }

@@ -3,10 +3,13 @@ package by.bsu.kulich.game.elements.view;
 import by.bsu.kulich.game.Arcanoid;
 import by.bsu.kulich.game.elements.controller.MenuController;
 import by.bsu.kulich.game.elements.entity.*;
+import by.bsu.kulich.game.elements.loader.ResourceLoader;
+import javafx.scene.media.AudioClip;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -25,24 +28,22 @@ public class View {
 
     public final static String[] ACTION_COMMANDS = {"new", "difficulty", "level", "hot", "about", "close"};
 
-    private final String ABOUT_ICON_PATH = "A.jpg";
+    private final String ABOUT_ICON_PATH = "images/A.jpg";
     private final ImageIcon ABOUT_ICON = new ImageIcon(getImage(ABOUT_ICON_PATH));
-    private final String INFO_ICON_PATH = "info.png";
+    private final String INFO_ICON_PATH = "images/info.png";
     private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
 
+    private final String MUSIC_PATH = "music/1.wav";
+
     private JMenuBar menuBar;
+    @Getter
     private JMenu menu;
-    @Getter
+
     private JMenuItem newGame;
-    @Getter
     private JMenuItem changeDifficulty;
-    @Getter
     private JMenuItem changeLevel;
-    @Getter
     private JMenuItem hotKeys;
-    @Getter
     private JMenuItem about;
-    @Getter
     private JMenuItem close;
 
     private MenuController menuController;
@@ -119,7 +120,8 @@ public class View {
                 .add("\"CTRL\" - поставить игру на паузу;")
                 .add("\"R\" - повторить игру в случае поражения;")
                 .add("\"S\" - повторить игру на этом же уровне со следующим уровнем сложности, если вы выиграли (если он доступен);")
-                .add("\"N\" - следующий уровень на текущем уровне сложности, если вы выиграли;");
+                .add("\"N\" - следующий уровень на текущем уровне сложности, если вы выиграли;")
+                .add("\"М\" - открывает меню (паузу нужно нажать вручную!);");
         JOptionPane.showMessageDialog(null, hotKeys.toString(), "Hot keys info", JOptionPane.INFORMATION_MESSAGE, INFO_ICON);
     }
 
@@ -151,7 +153,6 @@ public class View {
 
     private void createMenu() {
         menuBar = new JMenuBar();
-        menuController = new MenuController(arcanoid);
 
         menu = new JMenu("Меню");
         newGame = new JMenuItem("Начать новую игру");
@@ -166,6 +167,8 @@ public class View {
         about.setActionCommand(ACTION_COMMANDS[4]);
         close = new JMenuItem("Закрыть игру");
         close.setActionCommand(ACTION_COMMANDS[5]);
+
+        menuController = new MenuController(arcanoid, menu);
 
         newGame.addActionListener(menuController);
         changeDifficulty.addActionListener(menuController);
@@ -187,5 +190,33 @@ public class View {
 
         arcanoid.setJMenuBar(menuBar);
     }
+
+    public void playMusic() {
+        new Music();
+    }
+
+    private class Music extends Thread {
+
+        private Music() {
+            start();
+        }
+
+        @Override
+        public synchronized void start() {
+            super.start();
+        }
+
+        @Override
+        public void run() {
+            try {
+                AudioClip clip = new AudioClip(ResourceLoader.getMusicURL(MUSIC_PATH).toString());
+                clip.play(100.0);
+            } catch (IOException exc) {
+                JOptionPane.showMessageDialog(null, "FILE NOT FOUND");
+            }
+
+        }
+    }
+
 
 }

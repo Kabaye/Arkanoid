@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static by.bsu.kulich.game.elements.view.View.REAL_BOTTOM_WINDOW_BOUND;
 import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
@@ -19,10 +21,10 @@ import static by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
 public class Arcanoid extends JFrame implements Pausable {
 
     @Getter
-    private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.YOU_ARE_GOD;
+    private GameDifficultyLevel gameDifficultyLevel = GameDifficultyLevel.LIGHT;
 
     @Getter
-    private GameLevel gameLevel = GameLevel.FINAL;
+    private GameLevel gameLevel = GameLevel.BEGINNING;
 
     @Getter
     private Paddle paddle = new Paddle(WINDOW_WIDTH / 2.0, REAL_BOTTOM_WINDOW_BOUND - 20, gameDifficultyLevel);
@@ -56,6 +58,8 @@ public class Arcanoid extends JFrame implements Pausable {
     @Getter
     private int lives;
 
+    private Timer timer;
+
     public Arcanoid() {
         super("KABAYE INC. ARCANOID®");
 
@@ -74,9 +78,11 @@ public class Arcanoid extends JFrame implements Pausable {
         setLives();
 
         gameLevelCreator.createNewMap(blocks);
+
+        run();
     }
 
-    /*public static void main(String[] args) {
+   /* public static void main(String[] args) {
         new Arcanoid().run();
     }*/
 
@@ -193,20 +199,32 @@ public class Arcanoid extends JFrame implements Pausable {
 
     }
 
-    public void run() {
+    private void run() {
+        view.playMusic();
         running = true;
         view.showAllHotKeysDialog();
-        while (running) {
-            if (won) {
-                view.won();
-            } else if (loosed) {
-                view.loosed();
-            } else {
-                update();
-                view.drawScene(ball, blocks, paddle);
+        Arcanoid arcanoid = this;
+        timer = new Timer("timer1");
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (running) {
+                    if (won) {
+                        view.won();
+                    } else if (loosed) {
+                        view.loosed();
+                    } else {
+                        update();
+                        view.drawScene(ball, blocks, paddle);
+                    }
+                } else {
+                    dispatchEvent(new WindowEvent(arcanoid, WindowEvent.WINDOW_CLOSING));
+                }
+
             }
-        }
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        };
+
+        timer.schedule(task, 1, 4);
     }
 
     public void restart() {
