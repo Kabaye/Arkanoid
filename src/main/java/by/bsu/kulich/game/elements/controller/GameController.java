@@ -16,6 +16,10 @@ public class GameController implements KeyListener {
     @Setter
     private boolean isStarted;
 
+    @Getter
+    @Setter
+    private boolean nextLevel;
+
     public GameController(Arkanoid arkanoid) {
         this.arkanoid = arkanoid;
         isStarted = false;
@@ -68,6 +72,7 @@ public class GameController implements KeyListener {
             }
             case KeyEvent.VK_N:
                 if (arkanoid.isWon() && arkanoid.getGameLevel() != GameLevel.FINAL) {
+                    nextLevel = true;
                     arkanoid.setGameLevel(GameLevel.nextGameLevel(arkanoid.getGameLevel()));
                 }
                 break;

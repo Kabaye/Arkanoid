@@ -136,6 +136,9 @@ class GameFieldCanvas extends Canvas {
 
     private boolean[] easterEgg = {false, false, false};
 
+    @Getter
+    private boolean easterEggFlag;
+
     void drawLoosedScene(String text) {
         BufferStrategy bf = this.getBufferStrategy();
         Graphics g = null;
@@ -165,14 +168,15 @@ class GameFieldCanvas extends Canvas {
 
     void drawWonScene(GameDifficultyLevel level, GameLevel gameLevel, String text) {
         if (level == GameDifficultyLevel.YOU_ARE_GOD) {
-            if (gameLevel == GameLevel.BEGINNING)
+            if (gameLevel == GameLevel.BEGINNING && !arkanoid.getGameController().isNextLevel()) {
                 easterEgg[0] = true;
-            else if (gameLevel == GameLevel.MEDIUM)
+            } else if (gameLevel == GameLevel.MEDIUM && !arkanoid.getGameController().isNextLevel()) {
                 easterEgg[1] = true;
-            else if (gameLevel == GameLevel.FINAL)
+            } else if (gameLevel == GameLevel.FINAL && !arkanoid.getGameController().isNextLevel()) {
                 easterEgg[2] = true;
+            }
         }
-        boolean easterEggFlag = true;
+        easterEggFlag = true;
         for (int i = 0; i < 3; i++)
             if (!easterEgg[i])
                 easterEggFlag = false;
@@ -191,16 +195,16 @@ class GameFieldCanvas extends Canvas {
             int titleLen1 = fontMetrics.stringWidth(text.substring(firstPart));
             int titleHeight = fontMetrics.getHeight();
 
-            if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL && easterEggFlag) {
+            if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL && easterEggFlag && !arkanoid.getGameController().isNextLevel()) {
                 g.drawImage(LEVEL_COMPLETED_GOD_IMAGE.getImage(), 0, 0, null);
             } else if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL) {
                 g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
                 g.drawString("Вы прошли последний уровень! 10Q за игру!!!", WINDOW_WIDTH / 2 - 300, 40);
-            } else if (level == GameDifficultyLevel.YOU_ARE_GOD && gameLevel != GameLevel.FINAL) {
+            } else if (level == GameDifficultyLevel.YOU_ARE_GOD) {
                 g.drawImage(LEVEL_COMPLETED_GOD_LEVEL_IMAGE.getImage(), 0, 0, null);
                 g.drawString(text.substring(0, firstPart), (WINDOW_WIDTH / 2) - (titleLen / 2),
                         titleHeight + 5);
-            } else if (level != GameDifficultyLevel.YOU_ARE_GOD && gameLevel == GameLevel.FINAL) {
+            } else if (gameLevel == GameLevel.FINAL) {
                 g.drawImage(LEVEL_COMPLETED_IMAGE.getImage(), 0, 0, null);
                 g.drawString(text.substring(firstPart), (WINDOW_WIDTH / 2) - (titleLen1 / 2),
                         2 * titleHeight + 5);

@@ -36,6 +36,7 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
 
     @Getter
     private View view;
+    @Getter
     private GameController gameController;
 
     @Getter
@@ -255,18 +256,20 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
     }
 
     public void restart() {
+        won = false;
         ball.setGameDifficultyLevel(this.getGameDifficultyLevel());
         paddle.setGameDifficultyLevel(this.getGameDifficultyLevel());
         gameLevelCreator.setGameLevel(this.getGameLevel());
         ball.die();
         setLives();
         this.continueGame();
-        won = false;
         loosed = false;
         score = 0;
         view.update();
         amountOfBlocks = gameLevelCreator.getBlockAmount();
         gameLevelCreator.createNewMap(blocks);
+
+        gameController.setNextLevel(false);
     }
 
     private void setLives() {
