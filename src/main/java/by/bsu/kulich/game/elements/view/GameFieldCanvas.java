@@ -116,8 +116,8 @@ class GameFieldCanvas extends Canvas {
                 drawBall(g, ball);
 
             drawPaddle(g, paddle);
-            for (Block block : blocks) {
-                drawBlock(g, block);
+            for (int i = 0; i < blocks.size(); i++) {
+                drawBlock(g, blocks.get(i));
             }
 
             drawScore(g, view);

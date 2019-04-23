@@ -11,6 +11,7 @@ import main.java.by.bsu.kulich.game.elements.observer.Observer;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -37,7 +38,10 @@ public class View implements Observer {
     private final String INFO_ICON_PATH = "images/info.png";
     private final ImageIcon INFO_ICON = new ImageIcon(getImage(INFO_ICON_PATH));
 
-    private final String MUSIC_PATH = "music/1.wav";
+    private final String MUSIC1_PATH = "music/1.wav";
+    private final String MUSIC2_PATH = "music/2.wav";
+    private final String MUSIC3_PATH = "music/3.wav";
+    private final String MUSIC4_PATH = "music/4.wav";
 
     @Getter
     private JMenuBar menuBar;
@@ -52,6 +56,8 @@ public class View implements Observer {
     private JMenuItem close;
 
     private MenuController menuController;
+
+    private Music music;
 
     @Getter
     private String text = "";
@@ -85,6 +91,8 @@ public class View implements Observer {
 
         arkanoid.setResizable(false);
         arkanoid.setLocationRelativeTo(null);
+
+        music = new Music();
     }
 
     public void showChangeDifficultyDialog() {
@@ -201,8 +209,19 @@ public class View implements Observer {
         arkanoid.setJMenuBar(menuBar);
     }
 
-    public void playMusic() {
-        new Music();
+    public void playMusic(GameLevel level, GameDifficultyLevel difficulty) {
+        int i;
+        if (level == GameLevel.BEGINNING) {
+            i = 1;
+        } else if (level == GameLevel.MEDIUM) {
+            i = 2;
+        } else if (level == GameLevel.FINAL && difficulty == GameDifficultyLevel.YOU_ARE_GOD && gameFieldCanvas.getEasterEgg()[0] && gameFieldCanvas.getEasterEgg()[1]) {
+            i = 3;
+        } else {
+            i = 4;
+        }
+
+        music.playMusic(i);
     }
 
     public void drawMainImage() {
@@ -219,15 +238,42 @@ public class View implements Observer {
     }
 
     private class Music {
+        Clip clip;
+        int j = 0;
+
         private Music() {
             try {
+                clip = AudioSystem.getClip();
+            } catch (LineUnavailableException exc) {
 
-                AudioInputStream stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC_PATH));
-                Clip clip = AudioSystem.getClip();
-                clip.open(stream);
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (Exception exc) {
-                JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC_PATH);
+            }
+        }
+
+        private void playMusic(int i) {
+            if (j != i) {
+                j = i;
+                try {
+                    clip.stop();
+                    AudioInputStream stream = null;
+                    switch (i) {
+                        case 1:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC1_PATH));
+                            break;
+                        case 2:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC2_PATH));
+                            break;
+                        case 3:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC3_PATH));
+                            break;
+                        case 4:
+                            stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC4_PATH));
+                            break;
+                    }
+                    clip.open(stream);
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                } catch (Exception exc) {
+                    JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC1_PATH);
+                }
             }
         }
     }

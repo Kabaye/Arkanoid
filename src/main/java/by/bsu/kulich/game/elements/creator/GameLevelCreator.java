@@ -22,13 +22,13 @@ public class GameLevelCreator {
         this.gameLevel = gameLevel;
         switch (gameLevel) {
             case BEGINNING:
-                blockAmount = 90;
+                blockAmount = 1;
                 break;
             case MEDIUM:
-                blockAmount = 63;
+                blockAmount = 1;
                 break;
             case FINAL:
-                blockAmount = 63;
+                blockAmount = 1;
                 break;
         }
     }

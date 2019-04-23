@@ -81,7 +81,7 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
         setLives();
 
         gameLevelCreator.createNewMap(blocks);
-        view.playMusic();
+        view.playMusic(gameLevel, gameDifficultyLevel);
 
         defaultUpdator.add(ball);
         defaultUpdator.add(paddle);
@@ -96,6 +96,7 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
 
     public void setGameLevel(GameLevel level) {
         this.gameLevel = level;
+        view.playMusic(gameLevel, gameDifficultyLevel);
         restart();
     }
 
