@@ -131,7 +131,7 @@ public class View {
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arkanoid® версия 2.3.8")
+        about.add("Arkanoid® версия 2.4.2")
                 .add("Copyright (C) 2018 KABAYE INC.")
                 .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);
