@@ -62,7 +62,7 @@ public class View implements Observer {
     @Getter
     private String text = "";
 
-    final private String VERSION = "3.2.0";
+    final private String VERSION = "3.3.0";
 
     @Getter
     private Arkanoid arkanoid;
@@ -254,6 +254,7 @@ public class View implements Observer {
                 j = i;
                 try {
                     clip.stop();
+                    clip.close();
                     AudioInputStream stream = null;
                     switch (i) {
                         case 1:
@@ -272,7 +273,7 @@ public class View implements Observer {
                     clip.open(stream);
                     clip.loop(Clip.LOOP_CONTINUOUSLY);
                 } catch (Exception exc) {
-                    JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC1_PATH);
+                    JOptionPane.showMessageDialog(null, "FILE NOT FOUND \n" + i);
                 }
             }
         }

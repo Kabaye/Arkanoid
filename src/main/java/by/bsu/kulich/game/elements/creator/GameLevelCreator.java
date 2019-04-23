@@ -15,20 +15,20 @@ public class GameLevelCreator {
     private int blockAmount;
 
     public GameLevelCreator(GameLevel gameLevel) {
-        this.gameLevel = gameLevel;
+        setGameLevel(gameLevel);
     }
 
     public void setGameLevel(GameLevel gameLevel) {
         this.gameLevel = gameLevel;
         switch (gameLevel) {
             case BEGINNING:
-                blockAmount = 1;
+                blockAmount = 90;
                 break;
             case MEDIUM:
-                blockAmount = 1;
+                blockAmount = 63;
                 break;
             case FINAL:
-                blockAmount = 1;
+                blockAmount = 63;
                 break;
         }
     }
