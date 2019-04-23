@@ -3,6 +3,7 @@ package main.java.by.bsu.kulich.game.elements.view;
 
 import lombok.Getter;
 import main.java.by.bsu.kulich.game.Arkanoid;
+import main.java.by.bsu.kulich.game.elements.controller.GameController;
 import main.java.by.bsu.kulich.game.elements.controller.MenuController;
 import main.java.by.bsu.kulich.game.elements.entity.*;
 import main.java.by.bsu.kulich.game.elements.observer.Observer;
@@ -38,6 +39,7 @@ public class View implements Observer {
 
     private final String MUSIC_PATH = "music/1.wav";
 
+    @Getter
     private JMenuBar menuBar;
     @Getter
     private JMenu menu;
@@ -65,7 +67,7 @@ public class View implements Observer {
         arkanoid.setLayout(new BorderLayout());
         JPanel canvasPanel = new JPanel(new BorderLayout());
 
-        gameFieldCanvas = new GameFieldCanvas();
+        gameFieldCanvas = new GameFieldCanvas(arkanoid);
         arkanoid.setVisible(true);
         createMenu();
 
@@ -207,6 +209,11 @@ public class View implements Observer {
 
     public void start() {
         gameFieldCanvas.start();
+    }
+
+    public void addListener(GameController gameController) {
+        gameFieldCanvas.addKeyListener(gameController);
+
     }
 
     private class Music {

@@ -1,6 +1,7 @@
 package main.java.by.bsu.kulich.game.elements.view;
 
 import lombok.Getter;
+import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.entity.*;
 
 import javax.swing.*;
@@ -39,14 +40,14 @@ class GameFieldCanvas extends Canvas {
     private final String LEVEL3_BACKGROUND_PATH = "images/fon3.jpg";
     private final ImageIcon LEVEL3_BACKGROUND = new ImageIcon(getImage(LEVEL3_BACKGROUND_PATH));
 
-
-
     private Font font;
 
+    private Arkanoid arkanoid;
 
-    GameFieldCanvas() {
+    GameFieldCanvas(Arkanoid arkanoid) {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         font = new Font(FONT, Font.PLAIN, 12);
+        this.arkanoid = arkanoid;
     }
 
     void initBufferStrategy() {

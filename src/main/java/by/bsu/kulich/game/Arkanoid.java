@@ -72,6 +72,8 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
 
         this.addKeyListener(gameController);
 
+        view.addListener(gameController);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         score = 0;
@@ -224,6 +226,7 @@ public class Arkanoid extends JFrame implements Pausable, Observer {
                         view.loosed();
                     } else {
                         update();
+                        System.out.println(arkanoid.isFocused());
                         view.drawScene(ball, blocks, paddle);
                     }
                 } else {
