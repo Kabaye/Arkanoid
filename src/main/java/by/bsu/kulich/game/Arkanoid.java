@@ -75,7 +75,7 @@ public class Arkanoid extends JFrame implements Pausable {
         setLives();
 
         gameLevelCreator.createNewMap(blocks);
-
+        view.playMusic();
         run();
     }
 
@@ -193,11 +193,16 @@ public class Arkanoid extends JFrame implements Pausable {
     }
 
     private void run() {
-        view.playMusic();
         running = true;
-        view.showAllHotKeysDialog();
+
+        view.start();
+        view.start();
+        view.start();
+        view.start();
+
         Arkanoid arkanoid = this;
         timer = new Timer("timer1");
+
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -217,7 +222,25 @@ public class Arkanoid extends JFrame implements Pausable {
             }
         };
 
-        timer.schedule(task, 1, 4);
+        TimerTask starting = new TimerTask() {
+            @Override
+            public void run() {
+                view.showAllHotKeysDialog();
+                timer.schedule(task, 3500, 4);
+            }
+        };
+
+        TimerTask starting1 = new TimerTask() {
+            @Override
+            public void run() {
+                view.drawMainImage();
+                timer.schedule(starting, 1500);
+            }
+        };
+        timer.schedule(starting1, 2000);
+
+
+
     }
 
     public void restart() {

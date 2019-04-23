@@ -9,8 +9,7 @@ import java.awt.image.BufferStrategy;
 import java.util.List;
 
 import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
-import static main.java.by.bsu.kulich.game.elements.view.View.WINDOW_HEIGHT;
-import static main.java.by.bsu.kulich.game.elements.view.View.WINDOW_WIDTH;
+import static main.java.by.bsu.kulich.game.elements.view.View.*;
 
 @Getter
 class GameFieldCanvas extends Canvas {
@@ -210,5 +209,28 @@ class GameFieldCanvas extends Canvas {
 
         bf.show();
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    public void start() {
+        BufferStrategy bf = this.getBufferStrategy();
+        Graphics g;
+        try {
+            g = bf.getDrawGraphics();
+
+            g.setColor(Color.BLACK);
+
+            g.fillRect(0, 0, REAL_RIGHT_WINDOW_BOUND, REAL_BOTTOM_WINDOW_BOUND);
+
+            g.dispose();
+        } catch (Exception e) {
+
+        }
+        bf.show();
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    @Override
+    public void repaint() {
+
     }
 }

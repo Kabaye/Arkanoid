@@ -114,7 +114,7 @@ public class View {
     }
 
     public void showAllHotKeysDialog() {
-        drawMainImage();
+        // drawMainImage();
 
         final StringJoiner hotKeys = new StringJoiner("\n");
         hotKeys.add("\"ESC\" - выход из программы;")
@@ -125,12 +125,12 @@ public class View {
                 .add("\"S\" - повторить игру на этом же уровне со следующим уровнем сложности, если вы выиграли (если он доступен);")
                 .add("\"N\" - следующий уровень на текущем уровне сложности, если вы выиграли;")
                 .add("\"М\" - открывает меню (паузу нужно нажать вручную!);");
-        JOptionPane.showMessageDialog(null, hotKeys.toString(), "Hot keys info", JOptionPane.INFORMATION_MESSAGE, INFO_ICON);
+        JOptionPane.showMessageDialog(arkanoid, hotKeys.toString(), "Hot keys info", JOptionPane.INFORMATION_MESSAGE, INFO_ICON);
     }
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arkanoid® версия 2.3.7")
+        about.add("Arkanoid® версия 2.3.8")
                 .add("Copyright (C) 2018 KABAYE INC.")
                 .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);
@@ -202,6 +202,10 @@ public class View {
         gameFieldCanvas.drawMainImage();
     }
 
+    public void start() {
+        gameFieldCanvas.start();
+    }
+
     private class Music {
         private Music() {
             try {
@@ -210,7 +214,7 @@ public class View {
                 clip.open(stream);
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             } catch (Exception exc) {
-                //JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC_PATH);
+                JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC_PATH);
             }
 
         }
