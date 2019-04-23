@@ -1,5 +1,6 @@
 package main.java.by.bsu.kulich.game.elements.view;
 
+
 import lombok.Getter;
 import main.java.by.bsu.kulich.game.Arkanoid;
 import main.java.by.bsu.kulich.game.elements.controller.MenuController;
@@ -209,6 +210,7 @@ public class View {
     private class Music {
         private Music() {
             try {
+
                 AudioInputStream stream = AudioSystem.getAudioInputStream(getMusicURL(MUSIC_PATH));
                 Clip clip = AudioSystem.getClip();
                 clip.open(stream);
@@ -216,7 +218,6 @@ public class View {
             } catch (Exception exc) {
                 JOptionPane.showMessageDialog(null, "FILE NOT FOUND\n" + MUSIC_PATH);
             }
-
         }
     }
 
