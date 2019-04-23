@@ -12,12 +12,14 @@ public class Block extends Rectangle {
     public static final double BLOCK_HEIGHT = 30.0;
 
     private final Color MEDIUM_COLOR = new Color(162, 21, 193);
-    private final Color BEGINNING_COLOR = new Color(0, 255, 50);
+    private final Color BEGINNING_COLOR = new Color(40, 49, 255);
     private final Color FINAL_COLOR = new Color(239, 110, 50);
 
     @Setter
     @Getter
     private boolean destroyed = false;
+
+    @Getter
     private GameLevel gameLevel;
 
     @Getter

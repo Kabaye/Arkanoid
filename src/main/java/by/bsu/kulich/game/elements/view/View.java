@@ -131,7 +131,7 @@ public class View {
 
     public void showAboutDialog() {
         final StringJoiner about = new StringJoiner("\n");
-        about.add("Arkanoid® версия 2.4.2")
+        about.add("Arkanoid® версия 3.0.0")
                 .add("Copyright (C) 2018 KABAYE INC.")
                 .add("ARKANOID® All rights reserved.");
         JOptionPane.showMessageDialog(null, about.toString(), "About", JOptionPane.INFORMATION_MESSAGE, ABOUT_ICON);
@@ -152,7 +152,7 @@ public class View {
     }
 
     public void drawScene(Ball ball, List<Block> blocks, Paddle paddle) {
-        gameFieldCanvas.drawScene(ball, blocks, paddle, this);
+        gameFieldCanvas.drawScene(ball, blocks, paddle, this, arkanoid.getGameLevel());
     }
 
     private void createMenu() {
