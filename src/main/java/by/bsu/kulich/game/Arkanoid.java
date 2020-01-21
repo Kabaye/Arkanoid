@@ -1,13 +1,13 @@
-package main.java.by.bsu.kulich.game;
+package by.bsu.kulich.game;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.by.bsu.kulich.game.elements.Pausable;
-import main.java.by.bsu.kulich.game.elements.controller.GameController;
-import main.java.by.bsu.kulich.game.elements.creator.GameLevelCreator;
-import main.java.by.bsu.kulich.game.elements.entity.*;
-import main.java.by.bsu.kulich.game.elements.observer.DefaultUpdator;
-import main.java.by.bsu.kulich.game.elements.view.View;
+import by.bsu.kulich.game.elements.Pausable;
+import by.bsu.kulich.game.elements.controller.GameController;
+import by.bsu.kulich.game.elements.creator.GameLevelCreator;
+import by.bsu.kulich.game.elements.entity.*;
+import by.bsu.kulich.game.elements.observer.DefaultUpdator;
+import by.bsu.kulich.game.elements.view.View;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;

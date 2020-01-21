@@ -1,10 +1,10 @@
-package main.java.by.bsu.kulich.game.elements.controller;
+package by.bsu.kulich.game.elements.controller;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.by.bsu.kulich.game.Arkanoid;
-import main.java.by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
-import main.java.by.bsu.kulich.game.elements.entity.GameLevel;
+import by.bsu.kulich.game.Arkanoid;
+import by.bsu.kulich.game.elements.entity.GameDifficultyLevel;
+import by.bsu.kulich.game.elements.entity.GameLevel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

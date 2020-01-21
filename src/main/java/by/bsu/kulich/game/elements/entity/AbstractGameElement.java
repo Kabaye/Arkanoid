@@ -1,4 +1,4 @@
-package main.java.by.bsu.kulich.game.elements.entity;
+package by.bsu.kulich.game.elements.entity;
 
 public abstract class AbstractGameElement {
 

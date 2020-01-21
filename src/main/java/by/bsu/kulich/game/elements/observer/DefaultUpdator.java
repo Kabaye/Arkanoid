@@ -1,4 +1,4 @@
-package main.java.by.bsu.kulich.game.elements.observer;
+package by.bsu.kulich.game.elements.observer;
 
 import java.util.HashSet;
 import java.util.Set;

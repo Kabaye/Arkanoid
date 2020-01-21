@@ -1,8 +1,8 @@
-package main.java.by.bsu.kulich.game.elements.creator;
+package by.bsu.kulich.game.elements.creator;
 
 import lombok.Getter;
-import main.java.by.bsu.kulich.game.elements.entity.Block;
-import main.java.by.bsu.kulich.game.elements.entity.GameLevel;
+import by.bsu.kulich.game.elements.entity.Block;
+import by.bsu.kulich.game.elements.entity.GameLevel;
 
 import java.util.List;
 

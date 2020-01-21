@@ -1,12 +1,12 @@
-package main.java.by.bsu.kulich.game.elements.controller;
+package by.bsu.kulich.game.elements.controller;
 
-import main.java.by.bsu.kulich.game.Arkanoid;
+import by.bsu.kulich.game.Arkanoid;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static main.java.by.bsu.kulich.game.elements.view.View.ACTION_COMMANDS;
+import static by.bsu.kulich.game.elements.view.View.ACTION_COMMANDS;
 
 public class MenuController implements ActionListener {
     private Arkanoid arkanoid;

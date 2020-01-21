@@ -1,6 +1,6 @@
-package main.java.by.bsu.kulich;
+package by.bsu.kulich;
 
-import main.java.by.bsu.kulich.game.Arkanoid;
+import by.bsu.kulich.game.Arkanoid;
 
 public class Starter {
 

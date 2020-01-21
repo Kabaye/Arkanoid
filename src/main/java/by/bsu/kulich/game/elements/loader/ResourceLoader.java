@@ -1,4 +1,4 @@
-package main.java.by.bsu.kulich.game.elements.loader;
+package by.bsu.kulich.game.elements.loader;
 
 import java.awt.*;
 import java.net.URL;

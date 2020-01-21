@@ -1,16 +1,16 @@
-package main.java.by.bsu.kulich.game.elements.view;
+package by.bsu.kulich.game.elements.view;
 
 import lombok.Getter;
-import main.java.by.bsu.kulich.game.Arkanoid;
-import main.java.by.bsu.kulich.game.elements.entity.*;
+import by.bsu.kulich.game.Arkanoid;
+import by.bsu.kulich.game.elements.entity.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.List;
 
-import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
-import static main.java.by.bsu.kulich.game.elements.view.View.*;
+import static by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
+import static by.bsu.kulich.game.elements.view.View.*;
 
 @Getter
 class GameFieldCanvas extends Canvas {

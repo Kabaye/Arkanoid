@@ -1,12 +1,12 @@
-package main.java.by.bsu.kulich.game.elements.view;
+package by.bsu.kulich.game.elements.view;
 
 
 import lombok.Getter;
-import main.java.by.bsu.kulich.game.Arkanoid;
-import main.java.by.bsu.kulich.game.elements.controller.GameController;
-import main.java.by.bsu.kulich.game.elements.controller.MenuController;
-import main.java.by.bsu.kulich.game.elements.entity.*;
-import main.java.by.bsu.kulich.game.elements.observer.Observer;
+import by.bsu.kulich.game.Arkanoid;
+import by.bsu.kulich.game.elements.controller.GameController;
+import by.bsu.kulich.game.elements.controller.MenuController;
+import by.bsu.kulich.game.elements.entity.*;
+import by.bsu.kulich.game.elements.observer.Observer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -17,8 +17,8 @@ import java.awt.*;
 import java.util.List;
 import java.util.StringJoiner;
 
-import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
-import static main.java.by.bsu.kulich.game.elements.loader.ResourceLoader.getMusicURL;
+import static by.bsu.kulich.game.elements.loader.ResourceLoader.getImage;
+import static by.bsu.kulich.game.elements.loader.ResourceLoader.getMusicURL;
 
 
 public class View implements Observer {
@@ -62,7 +62,7 @@ public class View implements Observer {
     @Getter
     private String text = "";
 
-    final private String VERSION = "4.0.2";
+    final private String VERSION = "4.0.3";
 
     @Getter
     private Arkanoid arkanoid;

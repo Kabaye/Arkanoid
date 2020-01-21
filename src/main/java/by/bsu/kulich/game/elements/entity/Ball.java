@@ -1,12 +1,12 @@
-package main.java.by.bsu.kulich.game.elements.entity;
+package by.bsu.kulich.game.elements.entity;
 
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import main.java.by.bsu.kulich.game.Arkanoid;
-import main.java.by.bsu.kulich.game.elements.Pausable;
-import main.java.by.bsu.kulich.game.elements.observer.Observer;
-import main.java.by.bsu.kulich.game.elements.view.View;
+import by.bsu.kulich.game.Arkanoid;
+import by.bsu.kulich.game.elements.Pausable;
+import by.bsu.kulich.game.elements.observer.Observer;
+import by.bsu.kulich.game.elements.view.View;
 
 import java.awt.*;
 
